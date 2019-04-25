@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.hitomi.cmlibrary.OnMenuSelectedListener;
 import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 
 public class CircleMenu extends AppCompatActivity {
+    FirebaseAuth firebaseAuth;
     String names[]= {"Your Profile","Edit Profile","Add Daily Offers","Delete Daily Offers"};
     com.hitomi.cmlibrary.CircleMenu circleMenu;
     public Integer action;
@@ -17,6 +19,7 @@ public class CircleMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circle_menu);
+        firebaseAuth=FirebaseAuth.getInstance();
         action=0;
         circleMenu =  findViewById(R.id.circleMenu);
         circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.add,R.drawable.remove)
@@ -68,6 +71,11 @@ public class CircleMenu extends AppCompatActivity {
                 if (action==2) {
                     Intent intent = new Intent(CircleMenu.this, NewDailyOffer.class);
                     startActivity(intent);
+                }
+                if (action==3) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(CircleMenu.this,LoginActivity.class));
                 }
                 if (action==4) {
                     Intent intent = new Intent(CircleMenu.this, FoodListActivity.class);

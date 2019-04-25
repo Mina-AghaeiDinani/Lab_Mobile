@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/colorRestaurant" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/personal" />
+
+                <ImageButton
+                    android:id="@+id/btnPhotoProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignEnd="@+id/imgProfile"
+                    android:layout_alignBottom="@+id/imgProfile"
+                    android:background="@drawable/btn_circle_restaurant"
+                    android:src="@drawable/ic_camera" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardBackgroundColor="@color/lightTransparentGray"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Personal information"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="19sp" />
+
+                <EditText
+                    android:id="@+id/edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_person"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Your full name"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/edt_cellPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Phone number"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+
+                <EditText
+                    android:id="@+id/edt_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_mail"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Email@mail.com"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_eye"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardBackgroundColor="@color/lightTransparentGray"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Restaurant information"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="19sp" />
+
+                <EditText
+                    android:id="@+id/edt_nameRest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_home_black_24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Name of Restaurant"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/edt_phoneRest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Phone number"
+                    android:inputType="phone"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+
+                <EditText
+                    android:id="@+id/edt_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Location"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/edt_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="Useful information about restaurant"
+                    android:inputType="textImeMultiLine"
+                    android:maxLength="70"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardBackgroundColor="@color/lightTransparentGray"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:drawableStart="@drawable/ic_access_time_black_24dp"
+                    android:text="Opening hours"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="19sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="If you work 2 shifts in a day enter hours like example"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="10:00-15:30 , 19:00-23:15"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:text="Monday: "
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/edt_Monday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:hint="10-14:30 , 19:15-22"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/darkGray"
+                    android:textSize="17sp" />
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Tuesday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Tuesday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Wednesday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Wednesday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Thursday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Thursday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Friday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Friday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Saturday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Saturday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:text="Sunday: "
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/edt_Sunday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:hint="10-14:30 , 19:15-22"
+                        android:inputType="textCapWords"
+                        android:maxLength="30"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/darkGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/btnRegProfile"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:text="Register"
+            android:textSize="17sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_restaurant"
+
+            />
+        <TextView
+            android:id="@+id/tvReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Already registered? Log in!"
+            android:textColor="@color/colorRestaurant"
+            android:textSize="17sp" />
+    </LinearLayout>
+</ScrollView>
