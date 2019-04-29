@@ -318,8 +318,8 @@ public class NewDailyOffer extends AppCompatActivity {
     //************Validate each view
     private boolean validateName(String Name) {
         int characters = Name.trim().length();
-        if (characters > 20) {
-            edtFoodName.setError("Name is too long ( maximum is 20)");
+        if (characters > 30) {
+            edtFoodName.setError("Name is too long ( maximum is 30)");
             return false;
         } else if (characters < 1) {
             edtFoodName.setError("Name can not be empty");

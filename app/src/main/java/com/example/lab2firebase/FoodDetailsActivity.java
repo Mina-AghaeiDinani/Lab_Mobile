@@ -65,6 +65,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
     //define variables for getting from another activity
     String key,foodName,price,discount,availableQuantity,shortDescription;
+    String restaurantId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +160,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         dailyOffer.setDiscount(edtDiscount.getText().toString());
         dailyOffer.setAvailablequantity(edtAvailbaleQuantity.getText().toString());
         dailyOffer.setShortdescription(edtShortdescription.getText().toString());
+        dailyOffer.setRestaurantUid(restaurantId);
         if (image_uri==null){
             dailyOffer.setImageUrl(current_image_uri);
         } else dailyOffer.setImageUrl(String.valueOf(image_uri));
@@ -328,6 +330,8 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 edtPrice.setText(dailyOffer.getPrice());
                 edtShortdescription.setText(dailyOffer.getShortdescription());
                 current_image_uri=dailyOffer.getImageUrl();
+                restaurantId=dailyOffer.getRestaurantUid();
+
                 Picasso.get()
                         .load(dailyOffer.getImageUrl())
                         .placeholder(R.drawable.personal)
