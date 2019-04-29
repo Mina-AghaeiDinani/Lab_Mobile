@@ -22,9 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"
-       >
 
-    </android.support.v7.widget.RecyclerView>
+       />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_food"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="END of page"
+        />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"

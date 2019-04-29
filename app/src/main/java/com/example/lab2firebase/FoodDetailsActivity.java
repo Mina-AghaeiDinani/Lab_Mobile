@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,16 +23,36 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class FoodDetailsActivity extends AppCompatActivity {
-    public static final String EXTRA_IMAGE="com.example.lab2firebase.EXTRA_IMAGE";
+    //database
+
+    FirebaseDatabase firebaseDatabase;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
+    DatabaseReference databaseRefUpdate;
+    DatabaseReference databaseUpdate;
+
+
+    DatabaseReference databaseRefeDel;
+    DatabaseReference databasedel;
+    //
     private EditText edtFoodName,edtPrice,edtDiscount,edtAvailbaleQuantity,edtShortdescription;
-    private Button btnUpdate,btnView,btnDelete,btnHome;
+    private Button btnUpdate,btnView,btnDelete;
     private ImageView imgFood;
     private Uri image_uri;
     String myUri;
+    private String current_image_uri;
     private ProgressBar uploadProgress;
     //*********Define variables to read from camera
 
@@ -50,24 +71,25 @@ public class FoodDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_details);
 
         key = getIntent().getStringExtra("key");
-        foodName = getIntent().getStringExtra("foodName");
-        price = getIntent().getStringExtra("price");
-        discount = getIntent().getStringExtra("discount");
-        availableQuantity = getIntent().getStringExtra("availableQuantity");
-        shortDescription = getIntent().getStringExtra("shortDescription");
+        readInfo(key);
+        //foodName = getIntent().getStringExtra("foodName");
+        //price = getIntent().getStringExtra("price");
+        //discount = getIntent().getStringExtra("discount");
+        //availableQuantity = getIntent().getStringExtra("availableQuantity");
+        //shortDescription = getIntent().getStringExtra("shortDescription");
         //image
 
         uploadProgress=findViewById(R.id.uploadProgress);
         edtDiscount=findViewById(R.id.edtDiscount);
-        edtDiscount.setText(discount);
+        //edtDiscount.setText(discount);
         edtFoodName=findViewById(R.id.edtFoodName);
-        edtFoodName.setText(foodName);
+        //edtFoodName.setText(foodName);
         edtPrice=findViewById(R.id.edtPrice);
-        edtPrice.setText(price);
+        //edtPrice.setText(price);
         edtAvailbaleQuantity=findViewById(R.id.edtAvailableQuantity);
-        edtAvailbaleQuantity.setText(availableQuantity);
+        //edtAvailbaleQuantity.setText(availableQuantity);
         edtShortdescription=findViewById(R.id.edtShortDescription);
-        edtShortdescription.setText(shortDescription);
+       // edtShortdescription.setText(shortDescription);
         imgFood=findViewById(R.id.imgFood);
         //imgFood.setImageURI(image_uri);
         // we have to put also for image
@@ -81,16 +103,8 @@ public class FoodDetailsActivity extends AppCompatActivity {
         });
         btnUpdate=findViewById(R.id.btnUpdate);
         btnDelete=findViewById(R.id.btnDelete);
-        btnView=findViewById(R.id.btnView);
-        btnHome=findViewById(R.id.btnHome);
+        btnView=findViewById(R.id.btnBack);
 
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(FoodDetailsActivity.this, CircleMenu.class);
-                startActivity(i);
-            }
-        });
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,36 +129,25 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 {
                     edtAvailbaleQuantity.requestFocus();
                 }
-                else   updateInfo();
+                else  {
+                    updateInfo();
+                }
                 }
         });
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FirebaseDatabaseHelper().deleteFoods(key, new FirebaseDatabaseHelper.DataStatus() {
-                    @Override
-                    public void DataIsLoaded(List<DailyOffer> dailyOffers, List<String> keys) {
+                databaseRefeDel = FirebaseDatabase.getInstance().getReference("Restaurants");
+                databaseRefeDel.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(null);
 
-                    }
+                databasedel = FirebaseDatabase.getInstance().getReference("DailyFoods");
+                databasedel.child(key).setValue(null);
 
-                    @Override
-                    public void DataIsInserted() {
 
-                    }
-
-                    @Override
-                    public void DataIsUpdated() {
-
-                    }
-
-                    @Override
-                    public void DataIsDeleted() {
-                        Toast.makeText(FoodDetailsActivity.this,"Food has"+
-                                "been deleted",Toast.LENGTH_LONG).show();
-                        finish();
-                        return;
-                    }
-                });
+                Toast.makeText(FoodDetailsActivity.this,"Food has"+
+                        "been deleted",Toast.LENGTH_LONG).show();
+                finish();
+                return;
             }
         });
 
@@ -156,34 +159,24 @@ public class FoodDetailsActivity extends AppCompatActivity {
         dailyOffer.setDiscount(edtDiscount.getText().toString());
         dailyOffer.setAvailablequantity(edtAvailbaleQuantity.getText().toString());
         dailyOffer.setShortdescription(edtShortdescription.getText().toString());
-        dailyOffer.setImageUrl(String.valueOf(image_uri));
-        //Image
+        if (image_uri==null){
+            dailyOffer.setImageUrl(current_image_uri);
+        } else dailyOffer.setImageUrl(String.valueOf(image_uri));
 
-        new FirebaseDatabaseHelper().updateFoods(key, dailyOffer, new FirebaseDatabaseHelper.DataStatus() {
-            @Override
-            public void DataIsLoaded(List<DailyOffer> dailyOffers, List<String> keys) {
+        //Update from restaurant table
+        databaseRefUpdate = FirebaseDatabase.getInstance().getReference("Restaurants");
+        databaseRefUpdate.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(dailyOffer);
 
-            }
+        //Update for customers
+        databaseUpdate = FirebaseDatabase.getInstance().getReference("DailyFoods");
+        databaseUpdate.child(key).setValue(dailyOffer);
 
-            @Override
-            public void DataIsInserted() {
-
-            }
-
-            @Override
-            public void DataIsUpdated() {
-                Toast.makeText(FoodDetailsActivity.this,"Food has been updated",Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
-
-            @Override
-            public void DataIsDeleted() {
-
-            }
-        });
-
+        Toast.makeText(FoodDetailsActivity.this,"Food has been updated",Toast.LENGTH_LONG).show();
+        finish();
+        return;
     }
+
+
     // *****************Camera
     // *****************This part create dialog box
     private void selectImage() {
@@ -319,4 +312,36 @@ public class FoodDetailsActivity extends AppCompatActivity {
             return true;
         }
     }
+    private void readInfo(String key){
+        //....
+        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        //get reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("DailyFoods");
+        databaseReference.child(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DailyOffer dailyOffer=dataSnapshot.getValue(DailyOffer.class);
+                edtFoodName.setText(dailyOffer.getName());
+                edtAvailbaleQuantity.setText(dailyOffer.getAvailablequantity());
+                edtDiscount.setText(dailyOffer.getDiscount());
+                edtPrice.setText(dailyOffer.getPrice());
+                edtShortdescription.setText(dailyOffer.getShortdescription());
+                current_image_uri=dailyOffer.getImageUrl();
+                Picasso.get()
+                        .load(dailyOffer.getImageUrl())
+                        .placeholder(R.drawable.personal)
+                        .fit()
+                        .centerCrop()
+                        .into(imgFood);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(FoodDetailsActivity.this,databaseError.getCode(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
 }

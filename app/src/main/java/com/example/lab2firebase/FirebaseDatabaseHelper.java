@@ -3,6 +3,7 @@ package com.example.lab2firebase;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +16,7 @@ import java.util.List;
 public class FirebaseDatabaseHelper {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceFoods;
+    FirebaseAuth firebaseAuth;
     private List<DailyOffer> DailyFoods = new ArrayList<>();
 
     public interface DataStatus{
@@ -25,8 +27,9 @@ public class FirebaseDatabaseHelper {
     }
 
     public  FirebaseDatabaseHelper(){
+
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceFoods= mDatabase.getReference("DailyFoods");
+        mReferenceFoods= mDatabase.getReference("Restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Foods");
     }
     public void readFoods (final DataStatus dataStatus){
         mReferenceFoods.addValueEventListener(new ValueEventListener() {
@@ -35,6 +38,7 @@ public class FirebaseDatabaseHelper {
                 DailyFoods.clear();
                 List<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : dataSnapshot.getChildren()){
+
                     keys.add(keyNode.getKey());
                     DailyOffer dailyOffer=keyNode.getValue(DailyOffer.class);
                     DailyFoods.add(dailyOffer);

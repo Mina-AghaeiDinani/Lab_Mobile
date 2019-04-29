@@ -30,8 +30,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,11 +46,12 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 
 public class NewDailyOffer extends AppCompatActivity {
-    public static final String EXTRA_IMAGE="com.example.lab2firebase.EXTRA_IMAGE";
-    private EditText edtFoodName,edtPrice,edtDiscount,edtAvailbaleQuantity,edtShortdesc;
-    private Button btnAdd,btnView,btnHome;
+
+    private EditText edtFoodName, edtPrice, edtDiscount, edtAvailbaleQuantity, edtShortdesc;
+    private Button btnAdd, btnView, btnHome;
     private ImageView imgFood;
     private Uri image_uri;
+    private String restaurantUid;
     String myUri;
     private ProgressBar uploadProgress;
     //*********Define variables to read from camera
@@ -62,25 +66,26 @@ public class NewDailyOffer extends AppCompatActivity {
     private DatabaseReference mDatabaseRefrence;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
+
+    //Auth
+    FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newdailyoffer);
-        //*********Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //end of toolbar
 
-        uploadProgress=findViewById(R.id.uploadProgress);
-        btnAdd=findViewById(R.id.btnAdd);
-        btnView=findViewById(R.id.btnView);
-        btnHome=findViewById(R.id.btnHome);
-        edtDiscount=findViewById(R.id.edtDiscount);
-        edtFoodName=findViewById(R.id.edtFoodName);
-        edtPrice=findViewById(R.id.edtPrice);
-        edtAvailbaleQuantity=findViewById(R.id.edtAvailableQuantity);
-        edtShortdesc=findViewById(R.id.edtShortDescription);
-        imgFood=findViewById(R.id.imgFood);
+
+        uploadProgress = findViewById(R.id.uploadProgress);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnView = findViewById(R.id.btnView);
+        btnHome = findViewById(R.id.btnHome);
+        edtDiscount = findViewById(R.id.edtDiscount);
+        edtFoodName = findViewById(R.id.edtFoodName);
+        edtPrice = findViewById(R.id.edtPrice);
+        edtAvailbaleQuantity = findViewById(R.id.edtAvailableQuantity);
+        edtShortdesc = findViewById(R.id.edtShortDescription);
+        imgFood = findViewById(R.id.imgFood);
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,24 +104,20 @@ public class NewDailyOffer extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mUploadTask!=null && mUploadTask.isInProgress()){
-                    Toast.makeText(NewDailyOffer.this,"Upload in progress",Toast.LENGTH_LONG).show();
-                } else if (!validateName(edtFoodName.getText().toString()))
-                {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(NewDailyOffer.this, "Upload in progress", Toast.LENGTH_LONG).show();
+                } else if (!validateName(edtFoodName.getText().toString())) {
                     edtFoodName.requestFocus();
 
-                } else if (!validatePrice(edtPrice.getText().toString()))
-                {
+                } else if (!validatePrice(edtPrice.getText().toString())) {
                     edtPrice.requestFocus();
-                } else if (!validateAvailableQuantity(edtAvailbaleQuantity.getText().toString()))
-                {
+                } else if (!validateAvailableQuantity(edtAvailbaleQuantity.getText().toString())) {
                     edtAvailbaleQuantity.requestFocus();
-                }
-                else   addInfo();
+                } else addInfo();
             }
         });
         //****************************** Camera
-        btnSelectPhoto=findViewById(R.id.btnSelectPhoto);
+        btnSelectPhoto = findViewById(R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,45 +127,52 @@ public class NewDailyOffer extends AppCompatActivity {
         });
         // End
 
-        mDatabaseRefrence= FirebaseDatabase.getInstance().getReference("DailyFoods");
-        mStorageRef= FirebaseStorage.getInstance().getReference("DailyFoods");
+        //Authentication
+        firebaseAuth = FirebaseAuth.getInstance();
+        restaurantUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabaseRefrence = FirebaseDatabase.getInstance().getReference("DailyFoods");
+        mStorageRef = FirebaseStorage.getInstance().getReference("DailyFoods");
     }
-    //********** what toolbar is doing
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.backmenu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.btn_back) {
-            Intent intent= new Intent(this,RestaurantProfile.class);
-            startActivity(intent);
 
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    //End of code related to the toolbar
-    private void addInfo(){
-        if (image_uri!=null){
-            final StorageReference fileReferences=mStorageRef.child(System.currentTimeMillis()+"."+getExtension(image_uri));
-            mUploadTask=fileReferences.putFile(image_uri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+    private void addInfo() {
+        Toast.makeText(NewDailyOffer.this, "Please wait...", Toast.LENGTH_LONG).show();
+
+        if (image_uri != null) {
+            final StorageReference fileReferences = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(image_uri));
+            mUploadTask = fileReferences.putFile(image_uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot){
-                            Handler handler=new Handler();
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     uploadProgress.setProgress(0);
                                 }
-                            },500);
-                            fileReferences.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                            }, 500);
+                            fileReferences.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString());
+                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString(), restaurantUid);
                                     String dailyOfferId = mDatabaseRefrence.push().getKey();
+                                    //We also save information in table of restaurant for simplicity
+                                    //but later we will search on database
+                                    FirebaseDatabase.getInstance().getReference("Restaurants")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Foods").child(dailyOfferId)
+                                            .setValue(dailyOffer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if (task.isSuccessful()) {
+                                                // display a message
+                                            } else {
+                                                // display a failure message
+                                            }
+                                        }
+                                    });
+                                    //..............
+
+
                                     mDatabaseRefrence.child(dailyOfferId).setValue(dailyOffer);
                                     Toast.makeText(NewDailyOffer.this, "Upload Successfully", Toast.LENGTH_LONG).show();
                                     //Make empty all edit texts
@@ -174,6 +182,8 @@ public class NewDailyOffer extends AppCompatActivity {
                                     edtPrice.setText("");
                                     edtShortdesc.setText("");
                                     //change image to the default one
+
+
                                     imgFood.setImageResource(R.drawable.default_food);
                                     edtFoodName.requestFocus();
                                 }
@@ -183,38 +193,40 @@ public class NewDailyOffer extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(NewDailyOffer.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(NewDailyOffer.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            uploadProgress.setProgress((int)progress);
+                            uploadProgress.setProgress((int) progress);
                         }
                     });
 
-        }else
-            Toast.makeText(NewDailyOffer.this,"no photo has been selected",Toast.LENGTH_LONG).show();
+        } else
+            Toast.makeText(NewDailyOffer.this, "no photo has been selected", Toast.LENGTH_LONG).show();
 
 
     }
-    private String getExtension(Uri uri){
-        ContentResolver cr =getContentResolver();
-        MimeTypeMap mimeTypeMap= MimeTypeMap.getSingleton();
+
+    private String getExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
     }
+
     // *****************Camera
     // *****************This part create dialog box
     private void selectImage() {
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         }
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Delete" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Delete"};
         AlertDialog.Builder builder = new AlertDialog.Builder(NewDailyOffer.this);
 
         builder.setTitle("Add Photo!");
@@ -224,18 +236,14 @@ public class NewDailyOffer extends AppCompatActivity {
             @Override
 
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
+                if (options[item].equals("Take Photo")) {
                     openCamera();
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
+                } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
-                }
-                else if (options[item].equals("Delete")) {
+                } else if (options[item].equals("Delete")) {
                     int drawableResource = R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" +R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }
@@ -261,6 +269,7 @@ public class NewDailyOffer extends AppCompatActivity {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
     //........................
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -276,6 +285,7 @@ public class NewDailyOffer extends AppCompatActivity {
             imgFood.setImageURI(image_uri);
         }
     }
+
     //..................
     //*****
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -284,6 +294,7 @@ public class NewDailyOffer extends AppCompatActivity {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
     //..................
     //******* We want when we rotate screen image does not change
     //We use these 2 below functions
@@ -294,13 +305,15 @@ public class NewDailyOffer extends AppCompatActivity {
             outState.putString("image", image_uri.toString());
         }
     }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        String image=savedInstanceState.getString("image",""); // Value that was saved will restore to variable
+        String image = savedInstanceState.getString("image", ""); // Value that was saved will restore to variable
         image_uri = Uri.parse(image);
         imgFood.setImageURI(image_uri);
     }
+
     //...................................
     //************Validate each view
     private boolean validateName(String Name) {
@@ -308,33 +321,32 @@ public class NewDailyOffer extends AppCompatActivity {
         if (characters > 20) {
             edtFoodName.setError("Name is too long ( maximum is 20)");
             return false;
-        } else if (characters<1){
+        } else if (characters < 1) {
             edtFoodName.setError("Name can not be empty");
             return false;
-        }
-        else {
+        } else {
             edtFoodName.setError(null);
             return true;
         }
     }
+
     private boolean validatePrice(String Price) {
         int characters = Price.trim().length();
-        if (characters<1){
+        if (characters < 1) {
             edtPrice.setError("Price can not be empty");
             return false;
-        }
-        else {
+        } else {
             edtPrice.setError(null);
             return true;
         }
     }
+
     private boolean validateAvailableQuantity(String AvailableQuantity) {
         int characters = AvailableQuantity.trim().length();
-        if (characters<1){
+        if (characters < 1) {
             edtAvailbaleQuantity.setError("Available quantity can not be empty");
             return false;
-        }
-        else {
+        } else {
             edtAvailbaleQuantity.setError(null);
             return true;
         }

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="swapView"
+    tools:context=".ProfileActivity">
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card1"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/LinearImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorRestaurant"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarEdit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lightGrayTransparent"
+                android:fontFamily="sans-serif-black"
+                app:title="Easy Eat"
+                app:titleTextColor="@color/colorBlack" />
+
+            <ImageView
+                android:id="@+id/imgPro"
+                android:layout_width="200dp"
+                android:layout_height="130dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/abbasi_rest_1" />
+
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Mina Aghaei Dinani"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvNameRestaurant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Shabhaye Paeiz"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Information: "
+            android:drawableStart="@drawable/ic_info"
+            android:background="@color/lightTransparentGray"
+            android:drawableEnd="@drawable/ic__arrow_down"
+            android:textColor="@color/colorBlack"
+            android:textSize="17sp" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card2">
+        <LinearLayout
+            android:id="@+id/linearInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/colorRestaurantTransparent"
+            android:paddingStart="26dp"
+            android:paddingEnd="26dp">
+
+            <TextView
+                android:id="@+id/tvMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_mail"
+                android:fontFamily="sans-serif-black"
+                android:text="Mina@gmail.com"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_iphone"
+                android:fontFamily="sans-serif-black"
+                android:text="+39 434 255 5555"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvLocalPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_local_phone"
+                android:fontFamily="sans-serif-black"
+                android:text="+39 025 333 2687"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_location_on_black_24dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Turin, via Berta 5"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_comment"
+                android:fontFamily="sans-serif-black"
+                android:text=" All materials are bio."
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="@color/lightTransparentGray"
+            android:drawableStart="@drawable/ic_access_time_black_24dp"
+            android:fontFamily="sans-serif-black"
+            android:text=" Opening hours: "
+            android:drawableEnd="@drawable/ic__arrow_down"
+            android:textColor="@color/colorBlack"
+            android:textSize="17sp" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card4">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Monday :"/>
+                <TextView
+                    android:id="@+id/tvMonday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Tuesday:"/>
+                <TextView
+                    android:id="@+id/tvTuesday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Wednesday :"/>
+                <TextView
+                    android:id="@+id/tvWednesday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Thursday :"/>
+                <TextView
+                    android:id="@+id/tvThursday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Friday :"/>
+                <TextView
+                    android:id="@+id/tvFriday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Saturday :"/>
+                <TextView
+                    android:id="@+id/tvSaturday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  Sunday :"/>
+                <TextView
+                    android:id="@+id/tvSunday"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15sp"
+                    android:text="  11:30-15:20"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/nav_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRestaurant"
+        android:gravity="bottom"
+        app:itemTextColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation_profile" />
+
+</android.support.constraint.ConstraintLayout>

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 public class FoodListActivity extends AppCompatActivity {
@@ -26,8 +28,11 @@ public class FoodListActivity extends AppCompatActivity {
                     intent = new Intent(FoodListActivity.this, NewDailyOffer.class);
                     startActivity(intent);
                     return true;
-                case R.id.navigation_notifications:
-
+                case R.id.navigation_sign_out:
+                    FirebaseAuth  firebaseAuth=FirebaseAuth.getInstance();
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(FoodListActivity.this,LoginActivity.class));
                     return true;
             }
             return false;

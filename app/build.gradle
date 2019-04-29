@@ -45,5 +45,7 @@ dependencies {
     implementation 'com.github.Hitomis:CircleMenu:v1.1.0'
     //swipe to delete
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    //Circle image
+
 }
 apply plugin: 'com.google.gms.google-services'

@@ -65,7 +65,7 @@ public class CircleMenu extends AppCompatActivity {
             @Override
             public void onMenuClosed() {
                 if (action==1) {
-                    Intent intent = new Intent(CircleMenu.this, RestaurantProfile.class);
+                    Intent intent = new Intent(CircleMenu.this, ProfileActivity.class);
                     startActivity(intent);
                 }
                 if (action==2) {
@@ -105,6 +105,6 @@ public class CircleMenu extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        action=0;
+        action=-1;
     }
 }

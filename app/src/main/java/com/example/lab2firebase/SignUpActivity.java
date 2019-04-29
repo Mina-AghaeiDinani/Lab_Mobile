@@ -244,6 +244,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, "Registration has been done...", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                            finish();
                             RestaurantsProfile restaurantsProfile = new RestaurantsProfile();
                             restaurantsProfile.setName(name);
                             restaurantsProfile.setEmail(email);
@@ -264,7 +265,7 @@ public class SignUpActivity extends AppCompatActivity {
                             restaurantsProfile.setDescription(description);
 
 
-                            FirebaseDatabase.getInstance().getReference("Rest")
+                            FirebaseDatabase.getInstance().getReference("Restaurants")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(restaurantsProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

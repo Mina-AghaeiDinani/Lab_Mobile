@@ -54,11 +54,11 @@ public class RecyclerView_Config {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext,FoodDetailsActivity.class);
                     intent.putExtra("key",key);
-                    intent.putExtra("foodName",mFoodname.getText().toString());
-                    intent.putExtra("price",mPrice.getText().toString());
-                    intent.putExtra("discount",mDiscount.getText().toString());
-                    intent.putExtra("availableQuantity",mAvailablequantity.getText().toString());
-                    intent.putExtra("shortDescription",mShortdescription.getText().toString());
+                  //  intent.putExtra("foodName",mFoodname.getText().toString());
+                  //  intent.putExtra("price",mPrice.getText().toString());
+                   // intent.putExtra("discount",mDiscount.getText().toString());
+                    //intent.putExtra("availableQuantity",mAvailablequantity.getText().toString());
+                   // intent.putExtra("shortDescription",mShortdescription.getText().toString());
                   //  intent.putExtra("image",image_uri);
 
                     mContext.startActivity(intent);
@@ -69,10 +69,10 @@ public class RecyclerView_Config {
         public void bind(DailyOffer dailyOffer, String key) {
 
             mFoodname.setText(dailyOffer.getName());
-            mPrice.setText(dailyOffer.getPrice());
-            mDiscount.setText(dailyOffer.getDiscount());
+            mPrice.setText(dailyOffer.getPrice()+" € •");
+            mDiscount.setText(dailyOffer.getDiscount()+"% (Off) • ");
             mShortdescription.setText(dailyOffer.getShortdescription());
-            mAvailablequantity.setText(dailyOffer.getAvailablequantity());
+            mAvailablequantity.setText(dailyOffer.getAvailablequantity()+"(quantity)");
 
             Picasso.get()
                     .load(dailyOffer.getImageUrl())
