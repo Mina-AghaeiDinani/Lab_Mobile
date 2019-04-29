@@ -72,28 +72,17 @@ public class FoodDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_details);
 
         key = getIntent().getStringExtra("key");
+
         readInfo(key);
-        //foodName = getIntent().getStringExtra("foodName");
-        //price = getIntent().getStringExtra("price");
-        //discount = getIntent().getStringExtra("discount");
-        //availableQuantity = getIntent().getStringExtra("availableQuantity");
-        //shortDescription = getIntent().getStringExtra("shortDescription");
-        //image
 
         uploadProgress=findViewById(R.id.uploadProgress);
         edtDiscount=findViewById(R.id.edtDiscount);
-        //edtDiscount.setText(discount);
         edtFoodName=findViewById(R.id.edtFoodName);
-        //edtFoodName.setText(foodName);
         edtPrice=findViewById(R.id.edtPrice);
-        //edtPrice.setText(price);
         edtAvailbaleQuantity=findViewById(R.id.edtAvailableQuantity);
-        //edtAvailbaleQuantity.setText(availableQuantity);
         edtShortdescription=findViewById(R.id.edtShortDescription);
-       // edtShortdescription.setText(shortDescription);
         imgFood=findViewById(R.id.imgFood);
-        //imgFood.setImageURI(image_uri);
-        // we have to put also for image
+
         btnSelectPhoto=findViewById(R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
