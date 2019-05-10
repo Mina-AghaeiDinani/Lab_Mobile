@@ -18,17 +18,17 @@ public class CircleMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_circle_menu);
+        setContentView(com.example.lab2firebase.R.layout.activity_circle_menu);
         firebaseAuth=FirebaseAuth.getInstance();
         action=0;
-        circleMenu =  findViewById(R.id.circleMenu);
-        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.add,R.drawable.remove)
-                .addSubMenu(Color.parseColor("#258CFF"), R.drawable.notification)
-                .addSubMenu(Color.parseColor("#30A400"), R.drawable.hat)
-                .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.add_menu)
-                .addSubMenu(Color.parseColor("#8A39FF"), R.drawable.sign_out)
-                .addSubMenu(Color.parseColor("#D8A104"), R.drawable.view_icon)
-                .addSubMenu(Color.parseColor("#D81B60"), R.drawable.help)
+        circleMenu =  findViewById(com.example.lab2firebase.R.id.circleMenu);
+        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), com.example.lab2firebase.R.drawable.add, com.example.lab2firebase.R.drawable.remove)
+                .addSubMenu(Color.parseColor("#258CFF"), com.example.lab2firebase.R.drawable.notification)
+                .addSubMenu(Color.parseColor("#30A400"), com.example.lab2firebase.R.drawable.hat)
+                .addSubMenu(Color.parseColor("#FF4B32"), com.example.lab2firebase.R.drawable.add_menu)
+                .addSubMenu(Color.parseColor("#8A39FF"), com.example.lab2firebase.R.drawable.sign_out)
+                .addSubMenu(Color.parseColor("#D8A104"), com.example.lab2firebase.R.drawable.view_icon)
+                .addSubMenu(Color.parseColor("#D81B60"), com.example.lab2firebase.R.drawable.help)
                 .setOnMenuSelectedListener(new OnMenuSelectedListener() {
 
                     @Override

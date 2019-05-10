@@ -17,20 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".ApplyHelpActivity" />
-        <activity android:name=".PasswordActivity" />
-        <activity android:name=".CircleMenu" />
-        <activity android:name=".FoodDetailsActivity" />
-        <activity android:name=".CurrentOrders" />
-        <activity android:name=".DetailedItemActivity" />
-        <activity android:name=".FoodListActivity" />
-        <activity android:name=".RestaurantProfile" />
-        <activity android:name=".EditRestaurantProfile" />
-        <activity android:name=".NewDailyOffer" />
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.example.lab2firebase.EditProfileActivity" />
+        <activity android:name="com.example.lab2firebase.ProfileActivity" />
+        <activity android:name="com.example.lab2firebase.SignUpActivity" />
+        <activity android:name="com.example.lab2firebase.ApplyHelpActivity" />
+        <activity android:name="com.example.lab2firebase.PasswordActivity" />
+        <activity android:name="com.example.lab2firebase.CircleMenu" />
+        <activity android:name="com.example.lab2firebase.FoodDetailsActivity" />
+        <activity android:name="com.example.lab2firebase.CurrentOrders" />
+        <activity android:name="com.example.lab2firebase.DetailedItemActivity" />
+        <activity android:name="com.example.lab2firebase.FoodListActivity" />
+        <activity android:name="com.example.lab2firebase.RestaurantProfile" />
+        <activity android:name="com.example.lab2firebase.EditRestaurantProfile" />
+        <activity android:name="com.example.lab2firebase.NewDailyOffer" />
+        <activity android:name="com.example.lab2firebase.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

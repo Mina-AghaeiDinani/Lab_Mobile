@@ -16,11 +16,11 @@ public class ApplyHelpActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case com.example.lab2firebase.R.id.navigation_home:
                     Intent intent = new Intent(ApplyHelpActivity.this, LoginActivity.class);
                     startActivity(intent);
                     return true;
-                case R.id.navigation_apply_now:
+                case com.example.lab2firebase.R.id.navigation_apply_now:
                     intent = new Intent(ApplyHelpActivity.this, SignUpActivity.class);
                     startActivity(intent);
                     return true;
@@ -31,13 +31,13 @@ public class ApplyHelpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apply_help);
+        setContentView(com.example.lab2firebase.R.layout.activity_apply_help);
 
         //Navigation
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationApply);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(com.example.lab2firebase.R.id.navigationApply);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //button Apply Now
-        Button btnApplyNow=findViewById(R.id.btnApplyNow);
+        Button btnApplyNow=findViewById(com.example.lab2firebase.R.id.btnApplyNow);
         btnApplyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

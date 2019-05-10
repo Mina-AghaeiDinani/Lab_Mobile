@@ -1,6 +1,7 @@
 package com.example.lab2firebase;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +36,13 @@ public class OrderAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Order currentOrder = totalorders.get(position);
-        View v = mInflater.inflate(R.layout.order_list, null);
-        TextView orderTextView = (TextView) v.findViewById(R.id.OrderTextView);
-        TextView nbitemTextView = (TextView) v.findViewById(R.id.nbitemTextView);
-        TextView priceTextView = (TextView) v.findViewById(R.id.priceTextView);
-        TextView customerTextView = (TextView) v.findViewById(R.id.customerTextView);
+        Log.d("ADAPTER2","GET ORDER CALLED"+currentOrder.getAllItems());
+
+        View v = mInflater.inflate(com.example.lab2firebase.R.layout.order_list, null);
+        TextView orderTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.OrderTextView);
+        TextView nbitemTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.nbitemTextView);
+        TextView priceTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.priceTextView);
+        TextView customerTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.customerTextView);
 
         String order = "Order n°"+currentOrder.getId();
         String nbitem = ""+currentOrder.getNbItem()+" items";

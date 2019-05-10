@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -35,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Objects;
 
 public class EditRestaurantProfile extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -62,9 +60,9 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_restaurant_profile);
+        setContentView(com.example.lab2firebase.R.layout.activity_edit_restaurant_profile);
 
-        btnSelectPhoto1 = findViewById(R.id.btnSelectPhoto1);
+        btnSelectPhoto1 = findViewById(com.example.lab2firebase.R.id.btnSelectPhoto1);
         btnSelectPhoto1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,34 +71,34 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
             }
         });
 
-        Spinner weekdays = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.weekdays, android.R.layout.simple_list_item_1);
+        Spinner weekdays = findViewById(com.example.lab2firebase.R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, com.example.lab2firebase.R.array.weekdays, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
         weekdays.setAdapter(adapter);
         weekdays.setOnItemSelectedListener(this);
 
 
-        txt1 = (TextView) findViewById(R.id.txthourfrom);
-        txt2 = (TextView) findViewById(R.id.txthourto);
-        txt3 = (TextView) findViewById(R.id.txthourfrom2);
-        txt4 = (TextView) findViewById(R.id.txthourto2);
-        txt5 = (TextView) findViewById(R.id.edt_nameRestaurant);
-        txt6 = (TextView) findViewById(R.id.edt_phoneRestaurant);
-        txt7 = (TextView) findViewById(R.id.edt_mobileresturant);
-        txt8 = (TextView) findViewById(R.id.edt_address);
-        txt9 = (TextView) findViewById(R.id.txt_monday);
-        txt10 = (TextView) findViewById(R.id.txt_tuesday);
-        txt11 = (TextView) findViewById(R.id.txt_wednesday);
-        txt12 = (TextView) findViewById(R.id.txt_thursday);
-        txt13 = (TextView) findViewById(R.id.txt_friday);
-        txt14 = (TextView) findViewById(R.id.txt_saturday);
-        txt15 = (TextView) findViewById(R.id.txt_sunday);
-        savebutton = (Button) findViewById(R.id.btnsave);
+        txt1 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourfrom);
+        txt2 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourto);
+        txt3 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourfrom2);
+        txt4 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourto2);
+        txt5 = (TextView) findViewById(com.example.lab2firebase.R.id.edt_nameRestaurant);
+        txt6 = (TextView) findViewById(com.example.lab2firebase.R.id.edt_phoneRestaurant);
+        txt7 = (TextView) findViewById(com.example.lab2firebase.R.id.edt_mobileresturant);
+        txt8 = (TextView) findViewById(com.example.lab2firebase.R.id.edt_address);
+        txt9 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_monday);
+        txt10 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_tuesday);
+        txt11 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_wednesday);
+        txt12 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_thursday);
+        txt13 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_friday);
+        txt14 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_saturday);
+        txt15 = (TextView) findViewById(com.example.lab2firebase.R.id.txt_sunday);
+        savebutton = (Button) findViewById(com.example.lab2firebase.R.id.btnsave);
         ImageButton btntimepicker1, btntimepicker2, btntimepicker3, btntimepicker4;
         final DialogFragment timepicker1, timepicker2, timepicker3, timepicker4;
         a = b = c = d = false;
         timepicker1 = timepicker2 = timepicker3 = timepicker4 = new TimePicker();
-        btntimepicker1 = findViewById(R.id.btntimepicker1);
+        btntimepicker1 = findViewById(com.example.lab2firebase.R.id.btntimepicker1);
         btntimepicker1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +107,7 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
 
             }
         });
-        btntimepicker2 = findViewById(R.id.btntimepicker2);
+        btntimepicker2 = findViewById(com.example.lab2firebase.R.id.btntimepicker2);
         btntimepicker2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +116,7 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
                 timepicker2.show(getSupportFragmentManager(), "timepicker");
             }
         });
-        btntimepicker3 = findViewById(R.id.btntimepicker3);
+        btntimepicker3 = findViewById(com.example.lab2firebase.R.id.btntimepicker3);
         btntimepicker3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +126,7 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
                 timepicker3.show(getSupportFragmentManager(), "timepicker");
             }
         });
-        btntimepicker4 = findViewById(R.id.btntimepicker4);
+        btntimepicker4 = findViewById(com.example.lab2firebase.R.id.btntimepicker4);
         btntimepicker4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +150,7 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
 
 
         //*********Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(com.example.lab2firebase.R.id.toolbar);
         setSupportActionBar(toolbar);
         //end of toolbar
         // Write  to the database
@@ -281,14 +279,14 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
     //********** what toolbar is doing
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.backmenu_black, menu);
+        getMenuInflater().inflate(com.example.lab2firebase.R.menu.backmenu_black, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.btn_back) {
+        if (id == com.example.lab2firebase.R.id.btn_back) {
             Intent intent = new Intent(this, RestaurantProfile.class);
             startActivity(intent);
 
@@ -301,10 +299,10 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
 
     @Override
     public void onTimeSet(android.widget.TimePicker View, int hourOfDay, int minute) {
-        TextView textView1 = (TextView) findViewById(R.id.txthourfrom);
-        TextView textView2 = (TextView) findViewById(R.id.txthourto);
-        TextView textView3 = (TextView) findViewById(R.id.txthourfrom2);
-        TextView textView4 = (TextView) findViewById(R.id.txthourto2);
+        TextView textView1 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourfrom);
+        TextView textView2 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourto);
+        TextView textView3 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourfrom2);
+        TextView textView4 = (TextView) findViewById(com.example.lab2firebase.R.id.txthourto2);
         if (a == true) {
             textView1.setText("" + hourOfDay + ":" + minute);
 
@@ -406,9 +404,9 @@ public class EditRestaurantProfile extends AppCompatActivity implements TimePick
                 } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
                 } else if (options[item].equals("Delete")) {
-                    int drawableResource = R.drawable.default_food;
+                    int drawableResource = com.example.lab2firebase.R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + com.example.lab2firebase.R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }

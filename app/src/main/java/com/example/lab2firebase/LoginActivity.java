@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mauth;
@@ -26,10 +25,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(com.example.lab2firebase.R.layout.activity_login);
 
         //If forgot password
-        TextView tvForgotPassword=findViewById(R.id.tvForgotPassword);
+        TextView tvForgotPassword=findViewById(com.example.lab2firebase.R.id.tvForgotPassword);
         tvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        password = findViewById(R.id.edtPassword);
-        email = findViewById(R.id.edtEmail);
+        password = findViewById(com.example.lab2firebase.R.id.edtPassword);
+        email = findViewById(com.example.lab2firebase.R.id.edtEmail);
         //for Authentication
         mauth = FirebaseAuth.getInstance();
         //If user Already Login
@@ -50,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //Click on Join Us?
-        TextView txtNewCustomer = findViewById(R.id.txtNewRestaurant);
+        TextView txtNewCustomer = findViewById(com.example.lab2firebase.R.id.txtNewRestaurant);
         txtNewCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        TextView txtNewCustomers = findViewById(R.id.txtNewCusomer);
+        TextView txtNewCustomers = findViewById(com.example.lab2firebase.R.id.txtNewCusomer);
         txtNewCustomers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //Click on Continue
-        final Button btnContinue = findViewById(R.id.btnContinue);
+        final Button btnContinue = findViewById(com.example.lab2firebase.R.id.btnContinue);
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

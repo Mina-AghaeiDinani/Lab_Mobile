@@ -2,13 +2,9 @@ package com.example.lab2firebase;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.View;
 import android.widget.TextView;
 import android.view.LayoutInflater;
@@ -41,13 +37,13 @@ public class RecyclerView_Config {
         private String key;
         public DailyOfferItemView(ViewGroup parent){
             super(LayoutInflater.from(mContext).
-                    inflate(R.layout.food_list_item,parent,false));
-            mFoodname= (TextView) itemView.findViewById(R.id.txt_FoodName);
-            mPrice= (TextView) itemView.findViewById(R.id.txt_Price);
-            mDiscount= (TextView) itemView.findViewById(R.id.txt_Discount);
-            mAvailablequantity= (TextView) itemView.findViewById(R.id.txt_AvailableQuantity);
-            mShortdescription= (TextView) itemView.findViewById(R.id.txt_ShortDescription);
-            mImgfood= (ImageView) itemView.findViewById(R.id.img_Food);
+                    inflate(com.example.lab2firebase.R.layout.food_list_item,parent,false));
+            mFoodname= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_FoodName);
+            mPrice= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_Price);
+            mDiscount= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_Discount);
+            mAvailablequantity= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_AvailableQuantity);
+            mShortdescription= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_ShortDescription);
+            mImgfood= (ImageView) itemView.findViewById(com.example.lab2firebase.R.id.img_Food);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,7 +72,7 @@ public class RecyclerView_Config {
 
             Picasso.get()
                     .load(dailyOffer.getImageUrl())
-                    .placeholder(R.drawable.default_food)
+                    .placeholder(com.example.lab2firebase.R.drawable.default_food)
                     .fit()
                     .centerCrop()
                     .into(mImgfood);

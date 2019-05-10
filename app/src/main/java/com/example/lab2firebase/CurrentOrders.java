@@ -2,87 +2,111 @@ package com.example.lab2firebase;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 
 public class CurrentOrders extends AppCompatActivity implements OrdersFragment.OrdersFragmentListener {
     ListView orderListView;
-    Order order1, order2, order3, order4;
-    ItemOrdered item1, item2, item3, item4, item5, item6, item7, item8;
-    ArrayList<ItemOrdered> list1, list2, list3, list4;
 
-    ArrayList<Order> totalorders;
+    ArrayList<Order> orderList;
+    ArrayList<ItemOrdered> itemList;
+
 
     private OrdersFragment fragment1;
     private DetailedItemFragment fragment2;
 
+
+    DatabaseReference databaseOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Bundle saveState = savedInstanceState;
 
 
-        list1 = new ArrayList<>();
-        list2 = new ArrayList<>();
-        list3 = new ArrayList<>();
-        list4 = new ArrayList<>();
+        orderList = new ArrayList<>();
+        itemList = new ArrayList<>();
 
-        totalorders = new ArrayList<>();
-
-        item1 = new ItemOrdered("Muffin", 3.60, 3);
-        item2 = new ItemOrdered("Hamburger", 5.45, 1);
-        item3 = new ItemOrdered("Coke", 2.30, 2);
-        item4 = new ItemOrdered("Cheeseburger", 6.50, 1);
-        item5 = new ItemOrdered("French fries", 3.30, 2);
-        item6 = new ItemOrdered("Ketchup", 0.25, 4);
-        item7 = new ItemOrdered("Big Mac", 7.35, 1);
-        item8 = new ItemOrdered("Ice cream", 4.20, 3);
-
-        list1.addAll(Arrays.asList(item1, item3, item7));
-        list2.addAll(Arrays.asList(item2, item4, item1, item8));
-        list3.addAll(Arrays.asList(item5, item2, item4, item6, item7));
-        list4.addAll(Arrays.asList(item7, item5));
-
-        order1 = new Order(12345, "John", list1);
-        order2 = new Order(52949, "Paul", list2);
-        order3 = new Order(28474, "Johanna", list3);
-        order4 = new Order(84762, "Hermann", list4);
-
-        totalorders.addAll(Arrays.asList(order1,order2,order3,order4));
 
         /****** WE NOW CREATE THE VIEW DEPENDING ON THE DEVICE AND ORIENTATION *****/
 
         fragment1 = new OrdersFragment();
         fragment2 = new DetailedItemFragment();
 
-        int orientation = getResources().getConfiguration().orientation;
+        databaseOrder = FirebaseDatabase.getInstance().getReference().child("Order");
 
-        if(orientation == Configuration.ORIENTATION_PORTRAIT){
-            setContentView(R.layout.activity_current_orders);
-            if (findViewById(R.id.fragment_container)!= null){
-                if (savedInstanceState != null){
-                    return;
+        Log.d("START","ON START");
+
+        databaseOrder.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                orderList.clear();
+
+                for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
+                    Order orders = (Order) orderSnapshot.getValue(Order.class);
+                    ArrayList<Object> itemsOrdered = (ArrayList<Object>) orderSnapshot.child("allItems").getValue();
+                    Log.d("ITEMLIST1","ON DATA CHANGE"+itemList);
+                    itemList.clear();
+
+                    for(Object itemsObj : itemsOrdered){
+                        Map<String, Object> itemOrdered = (Map<String, Object>) itemsObj;
+                        ItemOrdered item = new ItemOrdered((String) itemOrdered.get("name"), (Double) Double.parseDouble(itemOrdered.get("price").toString()), (Integer) Integer.parseInt(itemOrdered.get("quantity").toString()), (Double) Double.parseDouble(itemOrdered.get("discount").toString()), (String) itemOrdered.get("description"));
+                        itemList.add(item);
+                        Log.d("ITEMLIST2","ON DATA CHANGE"+itemList);
+
+                    }
+                    Log.d("ITEMLIST3","ON DATA CHANGE"+itemList);
+                    orders.setItems(itemList);
+                    orderList.add(orders);
+
                 }
-            /*getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.orderTitle_fragment, fragment1)
-                    .replace(R.id.orderDetail_fragment, fragment2)
-                    .commit();*/
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, fragment1)
-                        .commit();
+                //OrderAdapter orderAdapter = new OrderAdapter(getApplicationContext(), orderList);
+                //orderListView.setAdapter(orderAdapter);
+
+                int orientation = getResources().getConfiguration().orientation;
+                Log.d("FRAG","FRAGMENTS CALLED");
+
+                if(orientation == Configuration.ORIENTATION_PORTRAIT){
+                    setContentView(com.example.lab2firebase.R.layout.activity_current_orders);
+                    if (findViewById(com.example.lab2firebase.R.id.fragment_container)!= null){
+                        if (saveState != null){
+                            return;
+                        }
+                        getSupportFragmentManager().beginTransaction()
+                                .add(com.example.lab2firebase.R.id.fragment_container, fragment1)
+                                .commit();
+                    }
+                }else if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    setContentView(com.example.lab2firebase.R.layout.activity_current_orders_landscape);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(com.example.lab2firebase.R.id.orderTitle_fragment, fragment1)
+                            .replace(com.example.lab2firebase.R.id.orderDetail_fragment, fragment2)
+                            .commit();
+                }
+
             }
-        }else if(orientation == Configuration.ORIENTATION_LANDSCAPE){
-            setContentView(R.layout.activity_current_orders_landscape);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.orderTitle_fragment, fragment1)
-                    .replace(R.id.orderDetail_fragment, fragment2)
-                    .commit();
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("ERROR","ERROR READING");
+            }
+
+
+        });
+
+
+
 
 
 
@@ -90,12 +114,19 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+
+    @Override
     public void onOrderClicked(Object detailed_order) {
-        DetailedItemFragment f2 = (DetailedItemFragment) getSupportFragmentManager().findFragmentById(R.id.orderDetail_fragment);
+        DetailedItemFragment f2 = (DetailedItemFragment) getSupportFragmentManager().findFragmentById(com.example.lab2firebase.R.id.orderDetail_fragment);
 
         if(f2 != null && f2.isVisible()){
             fragment2.updateView((Order) detailed_order);
-            getSupportFragmentManager().beginTransaction().replace(R.id.orderDetail_fragment, fragment2)
+            getSupportFragmentManager().beginTransaction().replace(com.example.lab2firebase.R.id.orderDetail_fragment, fragment2)
                     .commit();
         }else{
             //fragment2.updateView((Order) detailed_order);
@@ -109,7 +140,9 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
     }
 
     public ArrayList<Order> getOrders(){
-        return totalorders;
+        Log.d("order","GET ORDERS CALLED");
+
+        return orderList;
     }
 
 }

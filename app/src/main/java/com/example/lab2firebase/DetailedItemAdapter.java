@@ -36,10 +36,10 @@ public class DetailedItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ItemOrdered currentItem = items.get(position);
-        View v = mInflater.inflate(R.layout.detailed_item_list, null);
-        TextView nameTextView = (TextView) v.findViewById(R.id.nameTextView);
-        TextView priceTextView = (TextView) v.findViewById(R.id.priceTextView);
-        TextView quantityTextView = (TextView) v.findViewById(R.id.quantityTextView);
+        View v = mInflater.inflate(com.example.lab2firebase.R.layout.detailed_item_list, null);
+        TextView nameTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.nameTextView);
+        TextView priceTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.priceTextView);
+        TextView quantityTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.quantityTextView);
 
         String name = ""+currentItem.getName();
         String quantity = ""+currentItem.getQuantity();

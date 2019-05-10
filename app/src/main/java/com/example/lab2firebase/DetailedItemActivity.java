@@ -1,10 +1,7 @@
 package com.example.lab2firebase;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,11 +16,11 @@ public class DetailedItemActivity extends AppCompatActivity implements Serializa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_item);
+        setContentView(com.example.lab2firebase.R.layout.activity_detailed_item);
 
-        itemsListView = (ListView) findViewById(R.id.itemsListView);
-        orderNumber = (TextView) findViewById(R.id.orderNb_textView);
-        totalPrice = (TextView) findViewById(R.id.totalPrice_textView);
+        itemsListView = (ListView) findViewById(com.example.lab2firebase.R.id.itemsListView);
+        orderNumber = (TextView) findViewById(com.example.lab2firebase.R.id.orderNb_textView);
+        totalPrice = (TextView) findViewById(com.example.lab2firebase.R.id.totalPrice_textView);
 
         Intent myIntent = getIntent();
         Order current_order = (Order) myIntent.getSerializableExtra("Order_clicked");

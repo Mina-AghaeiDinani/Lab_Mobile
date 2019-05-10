@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,11 @@ public class DetailedItemFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.detaileditemfragment_layout, container, false);
+        View v = inflater.inflate(com.example.lab2firebase.R.layout.detaileditemfragment_layout, container, false);
 
-        itemsListView = (ListView) v.findViewById(R.id.itemsListView);
-        orderNumber = (TextView) v.findViewById(R.id.orderNb_textView);
-        totalPrice = (TextView) v.findViewById(R.id.totalPrice_textView);
+        itemsListView = (ListView) v.findViewById(com.example.lab2firebase.R.id.itemsListView);
+        orderNumber = (TextView) v.findViewById(com.example.lab2firebase.R.id.orderNb_textView);
+        totalPrice = (TextView) v.findViewById(com.example.lab2firebase.R.id.totalPrice_textView);
 
         return v;
     }

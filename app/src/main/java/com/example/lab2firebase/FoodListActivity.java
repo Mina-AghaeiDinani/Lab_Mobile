@@ -20,15 +20,15 @@ public class FoodListActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case com.example.lab2firebase.R.id.navigation_home:
                     Intent intent = new Intent(FoodListActivity.this, CircleMenu.class);
                     startActivity(intent);
                     return true;
-                case R.id.navigation_add:
+                case com.example.lab2firebase.R.id.navigation_add:
                     intent = new Intent(FoodListActivity.this, NewDailyOffer.class);
                     startActivity(intent);
                     return true;
-                case R.id.navigation_sign_out:
+                case com.example.lab2firebase.R.id.navigation_sign_out:
                     FirebaseAuth  firebaseAuth=FirebaseAuth.getInstance();
                     firebaseAuth.signOut();
                     finish();
@@ -43,16 +43,16 @@ public class FoodListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_list);
+        setContentView(com.example.lab2firebase.R.layout.activity_food_list);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(com.example.lab2firebase.R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_food);
+        mRecyclerView = (RecyclerView) findViewById(com.example.lab2firebase.R.id.recyclerview_food);
         new FirebaseDatabaseHelper().readFoods(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<DailyOffer> dailyOffers, List<String> keys) {
-                findViewById(R.id.loading_foods_pb).setVisibility(View.GONE);
+                findViewById(com.example.lab2firebase.R.id.loading_foods_pb).setVisibility(View.GONE);
                 new RecyclerView_Config().setConfig(mRecyclerView,FoodListActivity.this,dailyOffers,keys);
             }
 

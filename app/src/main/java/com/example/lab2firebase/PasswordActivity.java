@@ -22,11 +22,11 @@ public class PasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password);
+        setContentView(com.example.lab2firebase.R.layout.activity_password);
 
         ///
-        edtResetPassword = findViewById(R.id.edtResetPassword);
-        btnResetPassword = findViewById(R.id.btnResetPassword);
+        edtResetPassword = findViewById(com.example.lab2firebase.R.id.edtResetPassword);
+        btnResetPassword = findViewById(com.example.lab2firebase.R.id.btnResetPassword);
         firebaseAuth = FirebaseAuth.getInstance();
 
         //click on reset

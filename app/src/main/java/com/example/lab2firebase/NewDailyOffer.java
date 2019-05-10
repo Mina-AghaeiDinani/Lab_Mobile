@@ -17,10 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -73,19 +69,19 @@ public class NewDailyOffer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newdailyoffer);
+        setContentView(com.example.lab2firebase.R.layout.activity_newdailyoffer);
 
 
-        uploadProgress = findViewById(R.id.uploadProgress);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnView = findViewById(R.id.btnView);
-        btnHome = findViewById(R.id.btnHome);
-        edtDiscount = findViewById(R.id.edtDiscount);
-        edtFoodName = findViewById(R.id.edtFoodName);
-        edtPrice = findViewById(R.id.edtPrice);
-        edtAvailbaleQuantity = findViewById(R.id.edtAvailableQuantity);
-        edtShortdesc = findViewById(R.id.edtShortDescription);
-        imgFood = findViewById(R.id.imgFood);
+        uploadProgress = findViewById(com.example.lab2firebase.R.id.uploadProgress);
+        btnAdd = findViewById(com.example.lab2firebase.R.id.btnAdd);
+        btnView = findViewById(com.example.lab2firebase.R.id.btnView);
+        btnHome = findViewById(com.example.lab2firebase.R.id.btnHome);
+        edtDiscount = findViewById(com.example.lab2firebase.R.id.edtDiscount);
+        edtFoodName = findViewById(com.example.lab2firebase.R.id.edtFoodName);
+        edtPrice = findViewById(com.example.lab2firebase.R.id.edtPrice);
+        edtAvailbaleQuantity = findViewById(com.example.lab2firebase.R.id.edtAvailableQuantity);
+        edtShortdesc = findViewById(com.example.lab2firebase.R.id.edtShortDescription);
+        imgFood = findViewById(com.example.lab2firebase.R.id.imgFood);
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +113,7 @@ public class NewDailyOffer extends AppCompatActivity {
             }
         });
         //****************************** Camera
-        btnSelectPhoto = findViewById(R.id.btnSelectPhoto);
+        btnSelectPhoto = findViewById(com.example.lab2firebase.R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +180,7 @@ public class NewDailyOffer extends AppCompatActivity {
                                     //change image to the default one
 
 
-                                    imgFood.setImageResource(R.drawable.default_food);
+                                    imgFood.setImageResource(com.example.lab2firebase.R.drawable.default_food);
                                     edtFoodName.requestFocus();
                                 }
                             });
@@ -241,9 +237,9 @@ public class NewDailyOffer extends AppCompatActivity {
                 } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
                 } else if (options[item].equals("Delete")) {
-                    int drawableResource = R.drawable.default_food;
+                    int drawableResource = com.example.lab2firebase.R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + com.example.lab2firebase.R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }

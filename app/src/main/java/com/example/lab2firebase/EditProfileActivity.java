@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +54,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(com.example.lab2firebase.R.layout.activity_edit_profile);
 
         //......
         //..authentication
@@ -64,22 +63,22 @@ public class EditProfileActivity extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
 
         //define ids
-        tvName=findViewById(R.id.edt_Editname);
-        tvNameRestaurant=findViewById(R.id.edt_EditnameRest);
-        tvMail=findViewById(R.id.edt_Editmail);
-        tvPhone=findViewById(R.id.edt_EditCellPhone);
-        tvLocalPhone=findViewById(R.id.edt_EditphoneRest);
-        tvAddress=findViewById(R.id.edt_Editlocation);
-        tvDescription=findViewById(R.id.edt_Editdescription);
-        imgProfile=findViewById(R.id.imgEditPro);
+        tvName=findViewById(com.example.lab2firebase.R.id.edt_Editname);
+        tvNameRestaurant=findViewById(com.example.lab2firebase.R.id.edt_EditnameRest);
+        tvMail=findViewById(com.example.lab2firebase.R.id.edt_Editmail);
+        tvPhone=findViewById(com.example.lab2firebase.R.id.edt_EditCellPhone);
+        tvLocalPhone=findViewById(com.example.lab2firebase.R.id.edt_EditphoneRest);
+        tvAddress=findViewById(com.example.lab2firebase.R.id.edt_Editlocation);
+        tvDescription=findViewById(com.example.lab2firebase.R.id.edt_Editdescription);
+        imgProfile=findViewById(com.example.lab2firebase.R.id.imgEditPro);
 
-        tvMonday=findViewById(R.id.edt_EditMonday);
-        tvTuesday=findViewById(R.id.edt_EditTuesday);
-        tvWednesday=findViewById(R.id.edt_EditWednesday);
-        tvThursday=findViewById(R.id.edt_EditThursday);
-        tvFriday=findViewById(R.id.edt_EditFriday);
-        tvSaturday=findViewById(R.id.edt_EditSaturday);
-        tvSunday=findViewById(R.id.edt_EditSunday);
+        tvMonday=findViewById(com.example.lab2firebase.R.id.edt_EditMonday);
+        tvTuesday=findViewById(com.example.lab2firebase.R.id.edt_EditTuesday);
+        tvWednesday=findViewById(com.example.lab2firebase.R.id.edt_EditWednesday);
+        tvThursday=findViewById(com.example.lab2firebase.R.id.edt_EditThursday);
+        tvFriday=findViewById(com.example.lab2firebase.R.id.edt_EditFriday);
+        tvSaturday=findViewById(com.example.lab2firebase.R.id.edt_EditSaturday);
+        tvSunday=findViewById(com.example.lab2firebase.R.id.edt_EditSunday);
 
         //get reference
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Restaurants");
@@ -99,7 +98,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 current_image_uri=restaurantsProfile.getImageUrl();
                 Picasso.get()
                         .load(restaurantsProfile.getImageUrl())
-                        .placeholder(R.drawable.personal)
+                        .placeholder(com.example.lab2firebase.R.drawable.personal)
                         .fit()
                         .centerCrop()
                         .into(imgProfile);
@@ -122,7 +121,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //
         //****************************** Camera
-        ImageButton btnSelectPhoto=findViewById(R.id.btnEditPro);
+        ImageButton btnSelectPhoto=findViewById(com.example.lab2firebase.R.id.btnEditPro);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +132,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // End
 
         //
-        btn_Confirm = findViewById(R.id.EditbtnRegProfile);
+        btn_Confirm = findViewById(com.example.lab2firebase.R.id.EditbtnRegProfile);
         btn_Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +141,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
         //
-        btn_Back=findViewById(R.id.EditbtnBack);
+        btn_Back=findViewById(com.example.lab2firebase.R.id.EditbtnBack);
         btn_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +182,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
                 } else if (options[item].equals("Delete")) {
-                    int drawableResource = R.drawable.personal;
+                    int drawableResource = com.example.lab2firebase.R.drawable.personal;
                     Drawable d = getResources().getDrawable(drawableResource);
                     imgProfile.setImageDrawable(d);
 

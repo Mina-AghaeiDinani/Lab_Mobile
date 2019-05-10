@@ -1,5 +1,7 @@
 package com.example.lab2firebase;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,10 +10,21 @@ public class Order implements Serializable {
     private int nbItem;
     private double totalPrice;
     private String customer;
+    private String comments;
     private ArrayList<ItemOrdered> items;
+
+    public Order(){}
+
+    public Order(int id, String customer, String comments, ArrayList<ItemOrdered> items){
+        this.id = id;
+        this.comments = comments;
+        this.customer = customer;
+        this.items = items;
+    }
 
     public Order(int id, String customer, ArrayList<ItemOrdered> items){
         this.id = id;
+        this.comments = "";
         this.customer = customer;
         this.items = items;
     }
@@ -32,16 +45,30 @@ public class Order implements Serializable {
     }
 
     public int getNbItem(){
-        nbItem = items.size();
+        nbItem = 0;
+        int i;
+        ArrayList<ItemOrdered> castedItem = (ArrayList<ItemOrdered>) items;
+        for (i=0; i<castedItem.size();i++){
+            Log.d("ORDER","GET ORDER CALLED"+castedItem);
+
+            nbItem += castedItem.get(i).getQuantity();
+        }
         return nbItem;
     }
 
     public String getCustomer(){
         return customer;
     }
+    public String getComments(){
+        return comments;
+    }
 
     public ItemOrdered getItem(int position){
         return items.get(position);
+    }
+
+    public void setItems(ArrayList<ItemOrdered> items){
+        this.items = items;
     }
 
     public ArrayList<ItemOrdered> getAllItems(){

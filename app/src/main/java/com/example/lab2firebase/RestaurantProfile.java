@@ -17,16 +17,16 @@ public class RestaurantProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_profile);
+        setContentView(com.example.lab2firebase.R.layout.activity_restaurant_profile);
 
         //************ViewFlipper
-        int images[]={R.drawable.abbasi_rest_1,R.drawable.abbasi_rest_2,R.drawable.abbasi_rest_3,R.drawable.abbasi_rest_4};
-        viewFlipper=findViewById(R.id.viewFlipper);
+        int images[]={com.example.lab2firebase.R.drawable.abbasi_rest_1, com.example.lab2firebase.R.drawable.abbasi_rest_2, com.example.lab2firebase.R.drawable.abbasi_rest_3, com.example.lab2firebase.R.drawable.abbasi_rest_4};
+        viewFlipper=findViewById(com.example.lab2firebase.R.id.viewFlipper);
         for (int image:images){
             flipperImages(image);
         }
         //***********open new activity to add daily offers
-        ImageButton btnDailyOffer = findViewById(R.id.btnDailyOffer);
+        ImageButton btnDailyOffer = findViewById(com.example.lab2firebase.R.id.btnDailyOffer);
         btnDailyOffer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -37,7 +37,7 @@ public class RestaurantProfile extends AppCompatActivity {
 
 
         //***********Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(com.example.lab2firebase.R.id.toolbar);
         setSupportActionBar(toolbar);
         //end Toolbar
 
@@ -46,7 +46,7 @@ public class RestaurantProfile extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.editmenu, menu);
+        getMenuInflater().inflate(com.example.lab2firebase.R.menu.editmenu, menu);
         return true;
     }
     @Override
@@ -54,7 +54,7 @@ public class RestaurantProfile extends AppCompatActivity {
         // Handle toolbar item clicks here.
         int id = item.getItemId();
         //If Edit_button has been pressed go to the Edit activity
-        if (id == R.id.btn_edit) {
+        if (id == com.example.lab2firebase.R.id.btn_edit) {
             Intent i = new Intent(this, EditRestaurantProfile.class);
             startActivity(i);
         }

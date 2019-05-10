@@ -32,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 public class FoodDetailsActivity extends AppCompatActivity {
     //database
@@ -69,21 +68,21 @@ public class FoodDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_details);
+        setContentView(com.example.lab2firebase.R.layout.activity_food_details);
 
         key = getIntent().getStringExtra("key");
 
         readInfo(key);
 
-        uploadProgress=findViewById(R.id.uploadProgress);
-        edtDiscount=findViewById(R.id.edtDiscount);
-        edtFoodName=findViewById(R.id.edtFoodName);
-        edtPrice=findViewById(R.id.edtPrice);
-        edtAvailbaleQuantity=findViewById(R.id.edtAvailableQuantity);
-        edtShortdescription=findViewById(R.id.edtShortDescription);
-        imgFood=findViewById(R.id.imgFood);
+        uploadProgress=findViewById(com.example.lab2firebase.R.id.uploadProgress);
+        edtDiscount=findViewById(com.example.lab2firebase.R.id.edtDiscount);
+        edtFoodName=findViewById(com.example.lab2firebase.R.id.edtFoodName);
+        edtPrice=findViewById(com.example.lab2firebase.R.id.edtPrice);
+        edtAvailbaleQuantity=findViewById(com.example.lab2firebase.R.id.edtAvailableQuantity);
+        edtShortdescription=findViewById(com.example.lab2firebase.R.id.edtShortDescription);
+        imgFood=findViewById(com.example.lab2firebase.R.id.imgFood);
 
-        btnSelectPhoto=findViewById(R.id.btnSelectPhoto);
+        btnSelectPhoto=findViewById(com.example.lab2firebase.R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,9 +90,9 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-        btnUpdate=findViewById(R.id.btnUpdate);
-        btnDelete=findViewById(R.id.btnDelete);
-        btnView=findViewById(R.id.btnBack);
+        btnUpdate=findViewById(com.example.lab2firebase.R.id.btnUpdate);
+        btnDelete=findViewById(com.example.lab2firebase.R.id.btnDelete);
+        btnView=findViewById(com.example.lab2firebase.R.id.btnBack);
 
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,9 +196,9 @@ public class FoodDetailsActivity extends AppCompatActivity {
                     openGallery();
                 }
                 else if (options[item].equals("Delete")) {
-                    int drawableResource = R.drawable.default_food;
+                    int drawableResource = com.example.lab2firebase.R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" +R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + com.example.lab2firebase.R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }
@@ -323,7 +322,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
                 Picasso.get()
                         .load(dailyOffer.getImageUrl())
-                        .placeholder(R.drawable.personal)
+                        .placeholder(com.example.lab2firebase.R.drawable.personal)
                         .fit()
                         .centerCrop()
                         .into(imgFood);

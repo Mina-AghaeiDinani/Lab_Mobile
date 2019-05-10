@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +48,10 @@ public class OrdersFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.ordersfragment_layout, container, false);
+        View v = inflater.inflate(com.example.lab2firebase.R.layout.ordersfragment_layout, container, false);
 
 
-        orderListView = (ListView) v.findViewById(R.id.orderListView);
+        orderListView = (ListView) v.findViewById(com.example.lab2firebase.R.id.orderListView);
 
 
 
@@ -63,7 +64,7 @@ public class OrdersFragment extends Fragment {
 
         CurrentOrders mainActivity = (CurrentOrders) getActivity();
         current_orders = (ArrayList<Order>) mainActivity.getOrders();
-
+        Log.d("ORDER","GET ORDER CALLED"+current_orders);
         OrderAdapter itemAdapter = new OrderAdapter(getActivity(), current_orders);
         orderListView.setAdapter(itemAdapter);
 

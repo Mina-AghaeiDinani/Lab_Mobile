@@ -3,7 +3,6 @@ package com.example.lab2firebase;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.widget.ImageView;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,8 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,13 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText txt_Name, txt_Mail, txt_Phone, txt_Password;
@@ -61,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(com.example.lab2firebase.R.layout.activity_sign_up);
         setupUIViews();
         //****************************** Camera
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
                 } else if (options[item].equals("Delete")) {
-                    int drawableResource = R.drawable.personal;
+                    int drawableResource = com.example.lab2firebase.R.drawable.personal;
                     Drawable d = getResources().getDrawable(drawableResource);
                     imgProfile.setImageDrawable(d);
 
@@ -189,29 +182,29 @@ public class SignUpActivity extends AppCompatActivity {
 
     //**** To make it more clean we assign variable to each view here
     private void setupUIViews() {
-        txt_Name = findViewById(R.id.edt_name);
-        txt_Password = findViewById(R.id.edt_password);
-        txt_Mail = findViewById(R.id.edt_mail);
-        txt_Phone = findViewById(R.id.edt_cellPhone);
-        imgProfile = findViewById(R.id.imgProfile);
+        txt_Name = findViewById(com.example.lab2firebase.R.id.edt_name);
+        txt_Password = findViewById(com.example.lab2firebase.R.id.edt_password);
+        txt_Mail = findViewById(com.example.lab2firebase.R.id.edt_mail);
+        txt_Phone = findViewById(com.example.lab2firebase.R.id.edt_cellPhone);
+        imgProfile = findViewById(com.example.lab2firebase.R.id.imgProfile);
 
-        txt_NameRest = findViewById(R.id.edt_nameRest);
-        txt_PhoneRest = findViewById(R.id.edt_phoneRest);
-        txt_Address = findViewById(R.id.edt_location);
-        txt_Description = findViewById(R.id.edt_description);
+        txt_NameRest = findViewById(com.example.lab2firebase.R.id.edt_nameRest);
+        txt_PhoneRest = findViewById(com.example.lab2firebase.R.id.edt_phoneRest);
+        txt_Address = findViewById(com.example.lab2firebase.R.id.edt_location);
+        txt_Description = findViewById(com.example.lab2firebase.R.id.edt_description);
 
-        Monday = findViewById(R.id.edt_Monday);
-        Tuesday = findViewById(R.id.edt_Tuesday);
-        Wednesday = findViewById(R.id.edt_Wednesday);
-        Thursday = findViewById(R.id.edt_Thursday);
-        Friday = findViewById(R.id.edt_Friday);
-        Saturday = findViewById(R.id.edt_Saturday);
-        Sunday = findViewById(R.id.edt_Sunday);
+        Monday = findViewById(com.example.lab2firebase.R.id.edt_Monday);
+        Tuesday = findViewById(com.example.lab2firebase.R.id.edt_Tuesday);
+        Wednesday = findViewById(com.example.lab2firebase.R.id.edt_Wednesday);
+        Thursday = findViewById(com.example.lab2firebase.R.id.edt_Thursday);
+        Friday = findViewById(com.example.lab2firebase.R.id.edt_Friday);
+        Saturday = findViewById(com.example.lab2firebase.R.id.edt_Saturday);
+        Sunday = findViewById(com.example.lab2firebase.R.id.edt_Sunday);
 
-        progressBar = findViewById(R.id.progressbar);
-        btn_Confirm = findViewById(R.id.btnRegProfile);
-        tvRegisterd = findViewById(R.id.tvReg);
-        btnSelectPhoto = findViewById(R.id.btnPhotoProfile);
+        progressBar = findViewById(com.example.lab2firebase.R.id.progressbar);
+        btn_Confirm = findViewById(com.example.lab2firebase.R.id.btnRegProfile);
+        tvRegisterd = findViewById(com.example.lab2firebase.R.id.tvReg);
+        btnSelectPhoto = findViewById(com.example.lab2firebase.R.id.btnPhotoProfile);
 
     }
 
