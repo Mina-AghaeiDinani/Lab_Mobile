@@ -58,6 +58,8 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
                     Order orders = (Order) orderSnapshot.getValue(Order.class);
                     ArrayList<Object> itemsOrdered = (ArrayList<Object>) orderSnapshot.child("allItems").getValue();
                     Log.d("ITEMLIST1","ON DATA CHANGE"+itemList);
+                    Log.d("ORDERZZ","ON DATA CHANGE"+orders);
+
                     itemList.clear();
 
                     for(Object itemsObj : itemsOrdered){
