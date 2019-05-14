@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mauth;
@@ -44,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         //If user Already Login
         FirebaseUser user = mauth.getCurrentUser();
         if (user!=null){
+            String token_id= FirebaseInstanceId.getInstance().getToken();
+            String current_id=mauth.getCurrentUser().getUid();
+            FirebaseDatabase.getInstance().getReference("UsersToken")
+                    .child(current_id).setValue(token_id);
+            Toast.makeText(LoginActivity.this, "Login was Successful ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this,CircleMenu.class));
             finish();
         }
@@ -82,6 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     if (task.isSuccessful()) {
                                         //  checkEmailVerification();
+                                        String token_id= FirebaseInstanceId.getInstance().getToken();
+                                        String current_id=mauth.getCurrentUser().getUid();
+                                        FirebaseDatabase.getInstance().getReference("UsersToken")
+                                                .child(current_id).setValue(token_id);
                                         Toast.makeText(LoginActivity.this, "Login was Successful ", Toast.LENGTH_SHORT).show();
                                         finish();
                                         startActivity(new Intent(LoginActivity.this,CircleMenu.class));

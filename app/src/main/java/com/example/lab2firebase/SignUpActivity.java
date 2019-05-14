@@ -35,8 +35,8 @@ import java.io.ByteArrayOutputStream;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText txt_Name, txt_Mail, txt_Phone, txt_Password;
-    private ImageView imgProfile;
-    private EditText txt_Address, txt_Description, txt_NameRest, txt_PhoneRest;
+    private de.hdodenhof.circleimageview.CircleImageView imgProfile;
+    private EditText  txt_Description, txt_NameRest, txt_PhoneRest;
     private EditText Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -190,7 +190,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         txt_NameRest = findViewById(com.example.lab2firebase.R.id.edt_nameRest);
         txt_PhoneRest = findViewById(com.example.lab2firebase.R.id.edt_phoneRest);
-        txt_Address = findViewById(com.example.lab2firebase.R.id.edt_location);
         txt_Description = findViewById(com.example.lab2firebase.R.id.edt_description);
 
         Monday = findViewById(com.example.lab2firebase.R.id.edt_Monday);
@@ -225,7 +224,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         final String nameRest = txt_NameRest.getText().toString().trim();
         final String phoneRest = txt_PhoneRest.getText().toString().trim();
-        final String address = txt_Address.getText().toString().trim();
         final String description = txt_Description.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
         btn_Confirm.setEnabled(false);
@@ -235,8 +233,8 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this, "Registration has been done...", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+
+                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                             RestaurantsProfile restaurantsProfile = new RestaurantsProfile();
                             restaurantsProfile.setName(name);
@@ -254,7 +252,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                             restaurantsProfile.setNamerestaurant(nameRest);
                             restaurantsProfile.setPhonerestaurant(phoneRest);
-                            restaurantsProfile.setAddress(address);
                             restaurantsProfile.setDescription(description);
 
 
@@ -263,12 +260,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     .setValue(restaurantsProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this, "Registration has been done!", Toast.LENGTH_LONG).show();
-
-
-
+                                       // Toast.makeText(SignUpActivity.this, "Registration has been done!", Toast.LENGTH_LONG).show();
                                     } else {
                                         // display a failure message
                                     }

@@ -35,9 +35,9 @@ import java.io.ByteArrayOutputStream;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    EditText tvName,tvNameRestaurant,tvMail,tvAddress,tvPhone,tvLocalPhone,tvDescription;
+    EditText tvName,tvNameRestaurant,tvMail,tvPhone,tvLocalPhone,tvDescription;
     EditText tvMonday,tvTuesday,tvWednesday,tvThursday,tvFriday,tvSaturday,tvSunday;
-    ImageView imgProfile;
+    de.hdodenhof.circleimageview.CircleImageView imgProfile;
     private ProgressBar progressBar;
     private Button btn_Confirm,btn_Back;
     //*********Define variables to read from camera and put in ImageView
@@ -68,7 +68,6 @@ public class EditProfileActivity extends AppCompatActivity {
         tvMail=findViewById(com.example.lab2firebase.R.id.edt_Editmail);
         tvPhone=findViewById(com.example.lab2firebase.R.id.edt_EditCellPhone);
         tvLocalPhone=findViewById(com.example.lab2firebase.R.id.edt_EditphoneRest);
-        tvAddress=findViewById(com.example.lab2firebase.R.id.edt_Editlocation);
         tvDescription=findViewById(com.example.lab2firebase.R.id.edt_Editdescription);
         imgProfile=findViewById(com.example.lab2firebase.R.id.imgEditPro);
 
@@ -90,7 +89,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 RestaurantsProfile restaurantsProfile=dataSnapshot.getValue(RestaurantsProfile.class);
                 tvName.setText(restaurantsProfile.getName());
                 tvNameRestaurant.setText(restaurantsProfile.getNamerestaurant());
-                tvAddress.setText(restaurantsProfile.getAddress());
                 tvPhone.setText(restaurantsProfile.getPhone());
                 tvLocalPhone.setText(restaurantsProfile.getPhonerestaurant());
                 tvMail.setText(restaurantsProfile.getEmail());
@@ -272,7 +270,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         final String nameRest = tvNameRestaurant.getText().toString().trim();
         final String phoneRest = tvLocalPhone.getText().toString().trim();
-        final String address = tvAddress.getText().toString().trim();
         final String description = tvDescription.getText().toString().trim();
 
         RestaurantsProfile restaurantsProfile = new RestaurantsProfile();
@@ -291,7 +288,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         restaurantsProfile.setNamerestaurant(nameRest);
         restaurantsProfile.setPhonerestaurant(phoneRest);
-        restaurantsProfile.setAddress(address);
         restaurantsProfile.setDescription(description);
 
         if (image_uri!=null){

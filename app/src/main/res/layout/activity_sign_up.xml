@@ -26,13 +26,13 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/personal" />
+                    android:src="@drawable/logo_restaurant" />
 
                 <ImageButton
                     android:id="@+id/btnPhotoProfile"
@@ -159,7 +159,7 @@
                     android:id="@+id/edt_nameRest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_home_black_24dp"
+                    android:drawableLeft="@drawable/ic_restaurant_black"
                     android:fontFamily="sans-serif-black"
                     android:hint="Name of Restaurant"
                     android:inputType="textCapWords"
@@ -180,27 +180,12 @@
                     android:textColor="@color/colorBlack"
                     android:textColorHint="@color/darkGray"
                     android:textSize="17sp" />
-
-
-                <EditText
-                    android:id="@+id/edt_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                    android:fontFamily="sans-serif-black"
-                    android:hint="Location"
-                    android:inputType="textCapWords"
-                    android:maxLength="30"
-                    android:textColor="@color/colorBlack"
-                    android:textColorHint="@color/darkGray"
-                    android:textSize="17sp" />
-
                 <EditText
                     android:id="@+id/edt_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
-                    android:hint="Useful information about restaurant"
+                    android:hint="Kind of your restaurant;eg Japanese"
                     android:inputType="textImeMultiLine"
                     android:maxLength="70"
                     android:textColor="@color/colorBlack"

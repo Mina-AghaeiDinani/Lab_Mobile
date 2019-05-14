@@ -26,9 +26,9 @@ import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    TextView tvName,tvNameRestaurant,tvMail,tvAddress,tvPhone,tvLocalPhone,tvDescription;
+    TextView tvName,tvNameRestaurant,tvMail,tvPhone,tvLocalPhone,tvDescription;
     TextView tvMonday,tvTuesday,tvWednesday,tvThursday,tvFriday,tvSaturday,tvSunday;
-    ImageView imgProfile;
+    de.hdodenhof.circleimageview.CircleImageView imgProfile;
 
     //...
     FirebaseDatabase firebaseDatabase;
@@ -90,7 +90,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvMail=findViewById(com.example.lab2firebase.R.id.tvMail);
         tvPhone=findViewById(com.example.lab2firebase.R.id.tvPhone);
         tvLocalPhone=findViewById(com.example.lab2firebase.R.id.tvLocalPhone);
-        tvAddress=findViewById(com.example.lab2firebase.R.id.tvAddress);
         tvDescription=findViewById(com.example.lab2firebase.R.id.tvDescription);
         imgProfile=findViewById(com.example.lab2firebase.R.id.imgPro);
 
@@ -112,7 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
                 RestaurantsProfile restaurantsProfile=dataSnapshot.getValue(RestaurantsProfile.class);
                 tvName.setText(restaurantsProfile.getName());
                 tvNameRestaurant.setText(restaurantsProfile.getNamerestaurant());
-                tvAddress.setText(restaurantsProfile.getAddress());
                 tvPhone.setText(restaurantsProfile.getPhone());
                 tvLocalPhone.setText(restaurantsProfile.getPhonerestaurant());
                 tvMail.setText(restaurantsProfile.getEmail());

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab2Firebase</string>
+    <string name="app_name">Easy Eat</string>
     <string name="direction">DIRECTION</string>
     <string name="share">SHARE</string>
     <string name="call">CALL</string>
@@ -31,8 +31,13 @@
     <string name="photo">Proper photo attracts customers</string>
     <string name="submit">Submit</string>
     <string name="preview">Preview</string>
+    <string name="offline">Offline</string>
+    <string name="need_location">Enable GPS SERVICE</string>
+    <string name="location_content">This app wants to change your device settings use GPS,Wi-Fi and cell networks for your location</string>
+    <string name="online_driver">Online</string>
     <string name="offer_food">Offer daily foods</string>
     <array name="Category">
+
         <item>Main course</item>
         <item>Side dish</item>
         <item>Beverage</item>

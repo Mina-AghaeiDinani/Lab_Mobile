@@ -26,7 +26,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgEditPro"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
@@ -147,7 +147,7 @@
                     android:id="@+id/edt_EditnameRest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_home_black_24dp"
+                    android:drawableLeft="@drawable/ic_restaurant_black"
                     android:fontFamily="sans-serif-black"
                     android:hint="Update name of Restaurant"
                     android:inputType="textCapWords"
@@ -170,25 +170,14 @@
                     android:textSize="17sp" />
 
 
-                <EditText
-                    android:id="@+id/edt_Editlocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                    android:fontFamily="sans-serif-black"
-                    android:hint="Update location"
-                    android:inputType="textCapWords"
-                    android:maxLength="30"
-                    android:textColor="@color/colorBlack"
-                    android:textColorHint="@color/darkGray"
-                    android:textSize="17sp" />
+
 
                 <EditText
                     android:id="@+id/edt_Editdescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
-                    android:hint="Useful information about restaurant"
+                    android:hint="Kind of Your restaurant,eg Persian"
                     android:inputType="textImeMultiLine"
                     android:maxLength="70"
                     android:textColor="@color/colorBlack"
