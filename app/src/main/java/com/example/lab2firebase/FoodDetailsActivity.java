@@ -42,7 +42,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
-    DatabaseReference databaseRefUpdate;
     DatabaseReference databaseUpdate;
     private DatabaseReference mReferenceFoods;
     private List<DailyOffer> DailyFoods = new ArrayList<>();
