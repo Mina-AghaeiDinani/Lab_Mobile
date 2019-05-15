@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.lab2firebase.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,27 +36,29 @@ public class RecyclerView_Config {
         private ImageView mImgfood;
         private Uri image_uri;
         private String key;
+        private String foodId;
         public DailyOfferItemView(ViewGroup parent){
             super(LayoutInflater.from(mContext).
-                    inflate(com.example.lab2firebase.R.layout.food_list_item,parent,false));
-            mFoodname= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_FoodName);
-            mPrice= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_Price);
-            mDiscount= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_Discount);
-            mAvailablequantity= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_AvailableQuantity);
-            mShortdescription= (TextView) itemView.findViewById(com.example.lab2firebase.R.id.txt_ShortDescription);
-            mImgfood= (ImageView) itemView.findViewById(com.example.lab2firebase.R.id.img_Food);
+                    inflate(R.layout.food_list_item,parent,false));
+            mFoodname= (TextView) itemView.findViewById(R.id.txt_FoodName);
+            mPrice= (TextView) itemView.findViewById(R.id.txt_Price);
+            mDiscount= (TextView) itemView.findViewById(R.id.txt_Discount);
+            mAvailablequantity= (TextView) itemView.findViewById(R.id.txt_AvailableQuantity);
+            mShortdescription= (TextView) itemView.findViewById(R.id.txt_ShortDescription);
+            mImgfood= (ImageView) itemView.findViewById(R.id.img_Food);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext,FoodDetailsActivity.class);
                     intent.putExtra("key",key);
-                  //  intent.putExtra("foodName",mFoodname.getText().toString());
-                  //  intent.putExtra("price",mPrice.getText().toString());
-                   // intent.putExtra("discount",mDiscount.getText().toString());
+                    intent.putExtra("foodId",foodId);
+                    intent.putExtra("foodName",mFoodname.getText().toString());
+                    //  intent.putExtra("price",mPrice.getText().toString());
+                    // intent.putExtra("discount",mDiscount.getText().toString());
                     //intent.putExtra("availableQuantity",mAvailablequantity.getText().toString());
-                   // intent.putExtra("shortDescription",mShortdescription.getText().toString());
-                  //  intent.putExtra("image",image_uri);
+                    // intent.putExtra("shortDescription",mShortdescription.getText().toString());
+                    //  intent.putExtra("image",image_uri);
 
                     mContext.startActivity(intent);
                 }
@@ -69,10 +72,10 @@ public class RecyclerView_Config {
             mDiscount.setText(dailyOffer.getDiscount()+"% (Off) • ");
             mShortdescription.setText(dailyOffer.getShortdescription());
             mAvailablequantity.setText(dailyOffer.getAvailablequantity()+"(quantity)");
-
+            foodId=dailyOffer.getFoodId();
             Picasso.get()
                     .load(dailyOffer.getImageUrl())
-                    .placeholder(com.example.lab2firebase.R.drawable.default_food)
+                    .placeholder(R.drawable.default_food)
                     .fit()
                     .centerCrop()
                     .into(mImgfood);

@@ -3,20 +3,20 @@ package com.example.lab2firebase;
 public class RestaurantsProfile {
     //Property name must be the same as what we defined in real time database
     private String name, phone, email ,imageUrl;
-    private String namerestaurant,phonerestaurant,address,description;
+    private String namerestaurant,phonerestaurant,description;
     private String monday,tuesday,wednesday,thursday,friday,saturday,sunday;
     public RestaurantsProfile() {
         //Constructor , it is needed
     }
 
-    public RestaurantsProfile(String name, String phone, String email,String namerestaurant,String phonerestaurant, String address, String description, String imageUrl,String monday,String tuesday,String wednesday,String thursday,String friday,String saturday,String sunday) {
+    public RestaurantsProfile(String name, String phone, String email,String namerestaurant,String phonerestaurant, String description, String imageUrl,String monday,String tuesday,String wednesday,String thursday,String friday,String saturday,String sunday) {
         this.phone = phone;
         this.imageUrl = imageUrl;
         this.name = name;
         this.email = email;
 
 
-        this.address=address;
+
         this.namerestaurant=namerestaurant;
         this.phonerestaurant=phonerestaurant;
         if (description.trim().equals("")) {
@@ -59,13 +59,6 @@ public class RestaurantsProfile {
     }
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-    //Info of restaurant
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getNamerestaurant() {

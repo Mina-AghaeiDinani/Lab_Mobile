@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.lab2firebase.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodDetailsActivity extends AppCompatActivity {
     //database
@@ -41,7 +44,8 @@ public class FoodDetailsActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     DatabaseReference databaseRefUpdate;
     DatabaseReference databaseUpdate;
-
+    private DatabaseReference mReferenceFoods;
+    private List<DailyOffer> DailyFoods = new ArrayList<>();
 
     DatabaseReference databaseRefeDel;
     DatabaseReference databasedel;
@@ -63,26 +67,27 @@ public class FoodDetailsActivity extends AppCompatActivity {
     ImageButton btnSelectPhoto;
 
     //define variables for getting from another activity
-    String key,foodName,price,discount,availableQuantity,shortDescription;
+    String key,foodName,foodId,price,discount,availableQuantity,shortDescription;
     String restaurantId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.lab2firebase.R.layout.activity_food_details);
+        setContentView(R.layout.activity_food_details);
 
         key = getIntent().getStringExtra("key");
+        foodId=getIntent().getStringExtra("foodId");
+        foodName=getIntent().getStringExtra("foodName");
+        readInfo(foodId);
 
-        readInfo(key);
+        uploadProgress=findViewById(R.id.uploadProgress);
+        edtDiscount=findViewById(R.id.edtDiscount);
+        edtFoodName=findViewById(R.id.edtFoodName);
+        edtPrice=findViewById(R.id.edtPrice);
+        edtAvailbaleQuantity=findViewById(R.id.edtAvailableQuantity);
+        edtShortdescription=findViewById(R.id.edtShortDescription);
+        imgFood=findViewById(R.id.imgFood);
 
-        uploadProgress=findViewById(com.example.lab2firebase.R.id.uploadProgress);
-        edtDiscount=findViewById(com.example.lab2firebase.R.id.edtDiscount);
-        edtFoodName=findViewById(com.example.lab2firebase.R.id.edtFoodName);
-        edtPrice=findViewById(com.example.lab2firebase.R.id.edtPrice);
-        edtAvailbaleQuantity=findViewById(com.example.lab2firebase.R.id.edtAvailableQuantity);
-        edtShortdescription=findViewById(com.example.lab2firebase.R.id.edtShortDescription);
-        imgFood=findViewById(com.example.lab2firebase.R.id.imgFood);
-
-        btnSelectPhoto=findViewById(com.example.lab2firebase.R.id.btnSelectPhoto);
+        btnSelectPhoto=findViewById(R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +95,9 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-        btnUpdate=findViewById(com.example.lab2firebase.R.id.btnUpdate);
-        btnDelete=findViewById(com.example.lab2firebase.R.id.btnDelete);
-        btnView=findViewById(com.example.lab2firebase.R.id.btnBack);
+        btnUpdate=findViewById(R.id.btnUpdate);
+        btnDelete=findViewById(R.id.btnDelete);
+        btnView=findViewById(R.id.btnBack);
 
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,16 +126,16 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 else  {
                     updateInfo();
                 }
-                }
+            }
         });
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseRefeDel = FirebaseDatabase.getInstance().getReference("Restaurants");
-                databaseRefeDel.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(null);
+                //  databaseRefeDel = FirebaseDatabase.getInstance().getReference("Restaurants");
+                //    databaseRefeDel.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(null);
 
                 databasedel = FirebaseDatabase.getInstance().getReference("DailyFoods");
-                databasedel.child(key).setValue(null);
+                databasedel.child(foodId).setValue(null);
 
 
                 Toast.makeText(FoodDetailsActivity.this,"Food has"+
@@ -149,17 +154,19 @@ public class FoodDetailsActivity extends AppCompatActivity {
         dailyOffer.setAvailablequantity(edtAvailbaleQuantity.getText().toString());
         dailyOffer.setShortdescription(edtShortdescription.getText().toString());
         dailyOffer.setRestaurantUid(restaurantId);
+        dailyOffer.setFoodId(foodId);
+        Toast.makeText(FoodDetailsActivity.this,foodId,Toast.LENGTH_LONG).show();
         if (image_uri==null){
             dailyOffer.setImageUrl(current_image_uri);
         } else dailyOffer.setImageUrl(String.valueOf(image_uri));
 
         //Update from restaurant table
-        databaseRefUpdate = FirebaseDatabase.getInstance().getReference("Restaurants");
-        databaseRefUpdate.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(dailyOffer);
+        // databaseRefUpdate = FirebaseDatabase.getInstance().getReference("Restaurants");
+        // databaseRefUpdate.child(firebaseAuth.getUid()).child("Foods").child(key).setValue(dailyOffer);
 
         //Update for customers
         databaseUpdate = FirebaseDatabase.getInstance().getReference("DailyFoods");
-        databaseUpdate.child(key).setValue(dailyOffer);
+        databaseUpdate.child(foodId).setValue(dailyOffer);
 
         Toast.makeText(FoodDetailsActivity.this,"Food has been updated",Toast.LENGTH_LONG).show();
         finish();
@@ -196,9 +203,9 @@ public class FoodDetailsActivity extends AppCompatActivity {
                     openGallery();
                 }
                 else if (options[item].equals("Delete")) {
-                    int drawableResource = com.example.lab2firebase.R.drawable.default_food;
+                    int drawableResource = R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + com.example.lab2firebase.R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" +R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }
@@ -302,13 +309,16 @@ public class FoodDetailsActivity extends AppCompatActivity {
             return true;
         }
     }
-    private void readInfo(String key){
+    private void readInfo(String foodId){
         //....
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseDatabase= FirebaseDatabase.getInstance();
+        mReferenceFoods= firebaseDatabase.getReference("DailyFoods");
+
+
         //get reference
         databaseReference = FirebaseDatabase.getInstance().getReference("DailyFoods");
-        databaseReference.child(key).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DailyOffer dailyOffer=dataSnapshot.getValue(DailyOffer.class);
@@ -322,7 +332,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
                 Picasso.get()
                         .load(dailyOffer.getImageUrl())
-                        .placeholder(com.example.lab2firebase.R.drawable.personal)
+                        .placeholder(R.drawable.personal)
                         .fit()
                         .centerCrop()
                         .into(imgFood);

@@ -4,19 +4,21 @@ package com.example.lab2firebase;
 public class DailyOffer {
     //Property name must be the same as what we defined in real time database
     private String name, price, discount, availablequantity, shortdescription;
-    private String imageUrl,restaurantUid;
+    private String imageUrl,restaurantUid,foodId;
     public DailyOffer() {
         //Constructor , it is needed
     }
 
-    public DailyOffer(String name, String price, String discount, String availablequantity, String shortdescription,String imageUrl,String restaurantUid) {
+    public DailyOffer(String name, String price, String discount, String availablequantity, String shortdescription,String imageUrl,String restaurantUid,String foodId) {
         if (discount.trim().equals("")) {
             this.discount = "0";
         } else this.discount = discount;
         this.imageUrl = imageUrl;
         this.name = name;
         this.price = price;
+        this.foodId=foodId;
         this.restaurantUid=restaurantUid;
+
         if (shortdescription.trim().equals("")) {
             this.shortdescription = "Information is not provided";
         } else this.shortdescription = shortdescription;
@@ -28,6 +30,14 @@ public class DailyOffer {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
     public String getPrice() {
@@ -69,7 +79,7 @@ public class DailyOffer {
 
     public String getImageUrl() {
         return imageUrl;
-   }
+    }
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

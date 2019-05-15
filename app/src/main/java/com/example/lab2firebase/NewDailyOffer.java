@@ -26,10 +26,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.lab2firebase.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -69,19 +68,19 @@ public class NewDailyOffer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.lab2firebase.R.layout.activity_newdailyoffer);
+        setContentView(R.layout.activity_newdailyoffer);
 
 
-        uploadProgress = findViewById(com.example.lab2firebase.R.id.uploadProgress);
-        btnAdd = findViewById(com.example.lab2firebase.R.id.btnAdd);
-        btnView = findViewById(com.example.lab2firebase.R.id.btnView);
-        btnHome = findViewById(com.example.lab2firebase.R.id.btnHome);
-        edtDiscount = findViewById(com.example.lab2firebase.R.id.edtDiscount);
-        edtFoodName = findViewById(com.example.lab2firebase.R.id.edtFoodName);
-        edtPrice = findViewById(com.example.lab2firebase.R.id.edtPrice);
-        edtAvailbaleQuantity = findViewById(com.example.lab2firebase.R.id.edtAvailableQuantity);
-        edtShortdesc = findViewById(com.example.lab2firebase.R.id.edtShortDescription);
-        imgFood = findViewById(com.example.lab2firebase.R.id.imgFood);
+        uploadProgress = findViewById(R.id.uploadProgress);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnView = findViewById(R.id.btnView);
+        btnHome = findViewById(R.id.btnHome);
+        edtDiscount = findViewById(R.id.edtDiscount);
+        edtFoodName = findViewById(R.id.edtFoodName);
+        edtPrice = findViewById(R.id.edtPrice);
+        edtAvailbaleQuantity = findViewById(R.id.edtAvailableQuantity);
+        edtShortdesc = findViewById(R.id.edtShortDescription);
+        imgFood = findViewById(R.id.imgFood);
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +112,7 @@ public class NewDailyOffer extends AppCompatActivity {
             }
         });
         //****************************** Camera
-        btnSelectPhoto = findViewById(com.example.lab2firebase.R.id.btnSelectPhoto);
+        btnSelectPhoto = findViewById(R.id.btnSelectPhoto);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,11 +148,12 @@ public class NewDailyOffer extends AppCompatActivity {
                             fileReferences.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString(), restaurantUid);
                                     String dailyOfferId = mDatabaseRefrence.push().getKey();
+                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString(), restaurantUid, dailyOfferId);
+
                                     //We also save information in table of restaurant for simplicity
                                     //but later we will search on database
-                                    FirebaseDatabase.getInstance().getReference("Restaurants")
+                                   /* FirebaseDatabase.getInstance().getReference("Restaurants")
                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Foods").child(dailyOfferId)
                                             .setValue(dailyOffer).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -165,7 +165,7 @@ public class NewDailyOffer extends AppCompatActivity {
                                                 // display a failure message
                                             }
                                         }
-                                    });
+                                    });*/
                                     //..............
 
 
@@ -180,7 +180,7 @@ public class NewDailyOffer extends AppCompatActivity {
                                     //change image to the default one
 
 
-                                    imgFood.setImageResource(com.example.lab2firebase.R.drawable.default_food);
+                                    imgFood.setImageResource(R.drawable.default_food);
                                     edtFoodName.requestFocus();
                                 }
                             });
@@ -237,9 +237,9 @@ public class NewDailyOffer extends AppCompatActivity {
                 } else if (options[item].equals("Choose from Gallery")) {
                     openGallery();
                 } else if (options[item].equals("Delete")) {
-                    int drawableResource = com.example.lab2firebase.R.drawable.default_food;
+                    int drawableResource = R.drawable.default_food;
                     Drawable d = getResources().getDrawable(drawableResource);
-                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + com.example.lab2firebase.R.drawable.default_food);
+                    image_uri = Uri.parse("android.resource://com.example.lab2firebase/drawable/" + R.drawable.default_food);
                     imgFood.setImageDrawable(d);
                     dialog.dismiss();
                 }

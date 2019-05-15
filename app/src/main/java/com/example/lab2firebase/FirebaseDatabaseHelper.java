@@ -17,19 +17,21 @@ public class FirebaseDatabaseHelper {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceFoods;
     FirebaseAuth firebaseAuth;
+    String currentUser;
     private List<DailyOffer> DailyFoods = new ArrayList<>();
 
     public interface DataStatus{
-      void  DataIsLoaded(List<DailyOffer> dailyOffers, List<String> keys);
-      void DataIsInserted();
-      void DataIsUpdated();
-      void DataIsDeleted();
+        void  DataIsLoaded(List<DailyOffer> dailyOffers, List<String> keys);
+        void DataIsInserted();
+        void DataIsUpdated();
+        void DataIsDeleted();
     }
 
     public  FirebaseDatabaseHelper(){
 
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceFoods= mDatabase.getReference("Restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Foods");
+        currentUser=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mReferenceFoods= mDatabase.getReference("DailyFoods");
     }
     public void readFoods (final DataStatus dataStatus){
         mReferenceFoods.addValueEventListener(new ValueEventListener() {
@@ -41,7 +43,11 @@ public class FirebaseDatabaseHelper {
 
                     keys.add(keyNode.getKey());
                     DailyOffer dailyOffer=keyNode.getValue(DailyOffer.class);
-                    DailyFoods.add(dailyOffer);
+                    if (dailyOffer.getRestaurantUid().equals(currentUser)){
+                        DailyFoods.add(dailyOffer);
+                    }
+
+
                 }
                 dataStatus.DataIsLoaded(DailyFoods,keys);
             }
@@ -57,7 +63,7 @@ public class FirebaseDatabaseHelper {
         mReferenceFoods.child(key).setValue(dailyOffer)
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
-                  public void onSuccess( Void aVoid){
+                    public void onSuccess( Void aVoid){
                         dataStatus.DataIsInserted();
                     }
                 });

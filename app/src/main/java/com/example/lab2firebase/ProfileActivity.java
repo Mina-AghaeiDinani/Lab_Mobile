@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionManager;
 import android.view.Menu;
-import android.widget.ImageView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lab2firebase.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView tvName,tvNameRestaurant,tvMail,tvPhone,tvLocalPhone,tvDescription;
     TextView tvMonday,tvTuesday,tvWednesday,tvThursday,tvFriday,tvSaturday,tvSunday;
-    de.hdodenhof.circleimageview.CircleImageView imgProfile;
+    private de.hdodenhof.circleimageview.CircleImageView imgProfile;
 
     //...
     FirebaseDatabase firebaseDatabase;
@@ -40,15 +40,15 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case com.example.lab2firebase.R.id.sign_out:
+                case R.id.sign_out:
                     firebaseAuth.signOut();
                     finish();
                     startActivity(new Intent(ProfileActivity.this,LoginActivity.class));
                     return true;
-                case com.example.lab2firebase.R.id.Orders:
+                case R.id.Orders:
 
                     return true;
-                case com.example.lab2firebase.R.id.menu:
+                case R.id.menu:
                     Intent  intent = new Intent(ProfileActivity.this, FoodListActivity.class);
                     startActivity(intent);
                     return true;
@@ -66,17 +66,17 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.lab2firebase.R.layout.activity_profile);
+        setContentView(R.layout.activity_profile);
         // for swap
-        layout = findViewById(com.example.lab2firebase.R.id.Layout);
+        layout = findViewById(R.id.Layout);
         constraintSetOld.clone(layout);
-        constraintSetNew.clone(this, com.example.lab2firebase.R.layout.activity_profile_alternative);
+        constraintSetNew.clone(this, R.layout.activity_profile_alternative);
         //navigation
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(com.example.lab2firebase.R.id.nav_profile);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.nav_profile);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //we have to write codes in different functions
-        Toolbar toolbar = findViewById(com.example.lab2firebase.R.id.toolbarEdit);
+        Toolbar toolbar = findViewById(R.id.toolbarEdit);
         setSupportActionBar(toolbar);
         //end of code related to toolba
         //..authentication
@@ -85,21 +85,21 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
 
         //define ids
-        tvName=findViewById(com.example.lab2firebase.R.id.tvName);
-        tvNameRestaurant=findViewById(com.example.lab2firebase.R.id.tvNameRestaurant);
-        tvMail=findViewById(com.example.lab2firebase.R.id.tvMail);
-        tvPhone=findViewById(com.example.lab2firebase.R.id.tvPhone);
-        tvLocalPhone=findViewById(com.example.lab2firebase.R.id.tvLocalPhone);
-        tvDescription=findViewById(com.example.lab2firebase.R.id.tvDescription);
-        imgProfile=findViewById(com.example.lab2firebase.R.id.imgPro);
+        tvName=findViewById(R.id.tvName);
+        tvNameRestaurant=findViewById(R.id.tvNameRestaurant);
+        tvMail=findViewById(R.id.tvMail);
+        tvPhone=findViewById(R.id.tvPhone);
+        tvLocalPhone=findViewById(R.id.tvLocalPhone);
+        tvDescription=findViewById(R.id.tvDescription);
+        imgProfile=findViewById(R.id.imgPro);
 
-        tvMonday=findViewById(com.example.lab2firebase.R.id.tvMonday);
-        tvTuesday=findViewById(com.example.lab2firebase.R.id.tvTuesday);
-        tvWednesday=findViewById(com.example.lab2firebase.R.id.tvWednesday);
-        tvThursday=findViewById(com.example.lab2firebase.R.id.tvThursday);
-        tvFriday=findViewById(com.example.lab2firebase.R.id.tvFriday);
-        tvSaturday=findViewById(com.example.lab2firebase.R.id.tvSaturday);
-        tvSunday=findViewById(com.example.lab2firebase.R.id.tvSunday);
+        tvMonday=findViewById(R.id.tvMonday);
+        tvTuesday=findViewById(R.id.tvTuesday);
+        tvWednesday=findViewById(R.id.tvWednesday);
+        tvThursday=findViewById(R.id.tvThursday);
+        tvFriday=findViewById(R.id.tvFriday);
+        tvSaturday=findViewById(R.id.tvSaturday);
+        tvSunday=findViewById(R.id.tvSunday);
 
         //get reference
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Restaurants");
@@ -107,10 +107,11 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-               ///
+                ///
                 RestaurantsProfile restaurantsProfile=dataSnapshot.getValue(RestaurantsProfile.class);
                 tvName.setText(restaurantsProfile.getName());
                 tvNameRestaurant.setText(restaurantsProfile.getNamerestaurant());
+
                 tvPhone.setText(restaurantsProfile.getPhone());
                 tvLocalPhone.setText(restaurantsProfile.getPhonerestaurant());
                 tvMail.setText(restaurantsProfile.getEmail());
@@ -118,7 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 Picasso.get()
                         .load(restaurantsProfile.getImageUrl())
-                        .placeholder(com.example.lab2firebase.R.drawable.personal)
+                        .placeholder(R.drawable.personal)
                         .fit()
                         .centerCrop()
                         .into(imgProfile);
@@ -147,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.example.lab2firebase.R.menu.editmenu, menu);
+        getMenuInflater().inflate(R.menu.editmenu, menu);
         return true;
     }
     @Override
@@ -155,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Handle toolbar item clicks here.
         int id = item.getItemId();
         //If Edit_button has been pressed go to the Edit activity
-        if (id == com.example.lab2firebase.R.id.btn_edit) {
+        if (id == R.id.btn_edit) {
             Intent i = new Intent(this, EditProfileActivity.class);
             startActivity(i);
         }
