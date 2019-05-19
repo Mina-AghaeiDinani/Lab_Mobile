@@ -38,7 +38,7 @@ import java.util.List;
 
 public class FoodDetailsActivity extends AppCompatActivity {
     //database
-
+    //Last Update
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
