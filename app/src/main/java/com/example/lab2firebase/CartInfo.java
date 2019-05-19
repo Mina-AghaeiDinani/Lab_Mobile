@@ -1,7 +1,9 @@
 package com.example.lab2firebase;
 
 
-public class CartInfo {
+import java.io.Serializable;
+
+public class CartInfo implements Serializable {
     //Property name must be the same as what we defined in real time database
     private String customerId,customerName,customerImage;
     private String restaurantId,restaurantName,restaurantImage,restaurantComment;

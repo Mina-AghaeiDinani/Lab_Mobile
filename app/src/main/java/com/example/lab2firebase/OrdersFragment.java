@@ -22,7 +22,7 @@ public class OrdersFragment extends Fragment {
     //private ViewGroup container;
     //private LayoutInflater inflater;
     private OrdersFragmentListener listener;
-    ArrayList<Order> current_orders;
+    ArrayList<CartInfo> current_carts;
 
 
     public interface OrdersFragmentListener {
@@ -63,17 +63,17 @@ public class OrdersFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         CurrentOrders mainActivity = (CurrentOrders) getActivity();
-        current_orders = (ArrayList<Order>) mainActivity.getOrders();
-        Log.d("ORDER","GET ORDER CALLED"+current_orders);
-        OrderAdapter itemAdapter = new OrderAdapter(getActivity(), current_orders);
-        orderListView.setAdapter(itemAdapter);
+        current_carts = (ArrayList<CartInfo>) mainActivity.getCartList();
+        Log.d("ORDER","GET ORDER CALLED"+current_carts);
+        CartInfoAdapter cartAdapter = new CartInfoAdapter(getActivity(), current_carts);
+        orderListView.setAdapter(cartAdapter);
 
         orderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Order orderClicked = (Order) parent.getItemAtPosition(position);
-                listener.onOrderClicked(orderClicked);
-                Toast.makeText(getActivity(), "Order n°"+orderClicked.getId(), Toast.LENGTH_SHORT).show();
+                CartInfo cartClicked = (CartInfo) parent.getItemAtPosition(position);
+                listener.onOrderClicked(cartClicked);
+                Toast.makeText(getActivity(), "Order n°"+cartClicked.getOrderedId(), Toast.LENGTH_SHORT).show();
             }
         });
     }

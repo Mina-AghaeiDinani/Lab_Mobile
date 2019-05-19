@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,13 +23,18 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
     ArrayList<Order> orderList;
     ArrayList<ItemOrdered> itemList;
+    ArrayList<CartInfo> cartList;
 
 
     private OrdersFragment fragment1;
     private DetailedItemFragment fragment2;
 
+    private String myRestaurantID;
+
 
     DatabaseReference databaseOrder;
+    private DatabaseReference databaseFoodOrdered;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,9 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
         orderList = new ArrayList<>();
         itemList = new ArrayList<>();
+        cartList = new ArrayList<>();
+
+        myRestaurantID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         /****** WE NOW CREATE THE VIEW DEPENDING ON THE DEVICE AND ORIENTATION *****/
@@ -45,37 +54,65 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         fragment1 = new OrdersFragment();
         fragment2 = new DetailedItemFragment();
 
-        databaseOrder = FirebaseDatabase.getInstance().getReference().child("Order");
+        databaseOrder = FirebaseDatabase.getInstance().getReference()
+                .child("OrderInfo");
+
 
         Log.d("START","ON START");
 
         databaseOrder.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                orderList.clear();
+                //orderList.clear();
+                cartList.clear();
+                Log.d("RESTO ID", "id: "+myRestaurantID);
 
-                for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
-                    Order orders = (Order) orderSnapshot.getValue(Order.class);
-                    ArrayList<Object> itemsOrdered = (ArrayList<Object>) orderSnapshot.child("allItems").getValue();
-                    Log.d("ITEMLIST1","ON DATA CHANGE"+itemList);
-                    Log.d("ORDERZZ","ON DATA CHANGE"+orders);
+                // First, we read the db for each order
+                    for (DataSnapshot orderSnap : dataSnapshot.getChildren()){
+                        Log.d("ORDER SNAP", "order: "+orderSnap);
+                        CartInfo cart = (CartInfo) orderSnap.getValue(CartInfo.class);
+                        if(myRestaurantID.equals(cart.getRestaurantId())){ // We check that this Order is for our Restaurant
+                            Log.d("INSIDE IF", "order: "+cart);
+                            //If it is the case, we add it to the list we will display
+                            cart.setOrderedId(orderSnap.getKey());
+                            cartList.add(cart);
 
-                    itemList.clear();
-
-                    for(Object itemsObj : itemsOrdered){
-                        Map<String, Object> itemOrdered = (Map<String, Object>) itemsObj;
-                        ItemOrdered item = new ItemOrdered((String) itemOrdered.get("name"), (Double) Double.parseDouble(itemOrdered.get("price").toString()), (Integer) Integer.parseInt(itemOrdered.get("quantity").toString()), (Double) Double.parseDouble(itemOrdered.get("discount").toString()), (String) itemOrdered.get("description"));
-                        itemList.add(item);
-                        Log.d("ITEMLIST2","ON DATA CHANGE"+itemList);
-
+                        }
                     }
-                    Log.d("ITEMLIST3","ON DATA CHANGE"+itemList);
-                    orders.setItems(itemList);
-                    orderList.add(orders);
 
-                }
-                //OrderAdapter orderAdapter = new OrderAdapter(getApplicationContext(), orderList);
-                //orderListView.setAdapter(orderAdapter);
+
+                    //if(cart.getRestaurantId()== myRestaurantID){ // We check that this Order is for our Restaurant
+
+                        //We retrieve the Food belonging to this order
+                        /*databaseFoodOrdered =FirebaseDatabase.getInstance().getReference("CartFoods")
+                                .child(cart.getCustomerId())
+                                .child(myRestaurantID)
+                                .child("Foods");
+
+                        databaseFoodOrdered.addValueEventListener(new ValueEventListener() { //Reading part of the db containing our food
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                itemList.clear();
+                                for (DataSnapshot foodOrderedSnap : dataSnapshot.getChildren()){
+                                    OrderdFood foodOrdered = foodOrderedSnap.getValue(OrderdFood.class);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        })*/
+
+                        //ArrayList<Object> itemsOrdered =
+                        //Order thisOrder = new Order(order_id, cart.getCustomerName(), itemList);
+                    //}
+
+                    //ArrayList<Object> itemsOrdered = (ArrayList<Object>) orderSnapshot.child("allItems").getValue();
+
+                    //orders.setItems(itemList);
+                    //orderList.add(orders);
 
                 int orientation = getResources().getConfiguration().orientation;
                 Log.d("FRAG","FRAGMENTS CALLED");
@@ -127,13 +164,13 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         DetailedItemFragment f2 = (DetailedItemFragment) getSupportFragmentManager().findFragmentById(com.example.lab2firebase.R.id.orderDetail_fragment);
 
         if(f2 != null && f2.isVisible()){
-            fragment2.updateView((Order) detailed_order);
+            fragment2.updateView((CartInfo) detailed_order);
             getSupportFragmentManager().beginTransaction().replace(com.example.lab2firebase.R.id.orderDetail_fragment, fragment2)
                     .commit();
         }else{
             //fragment2.updateView((Order) detailed_order);
             Intent intent_act2 = new Intent(getApplicationContext(), DetailedItemActivity.class);
-            intent_act2.putExtra("Order_clicked", (Order) detailed_order);
+            intent_act2.putExtra("Order_clicked", (CartInfo) detailed_order);
             startActivity(intent_act2);
         }
 
@@ -141,10 +178,10 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
     }
 
-    public ArrayList<Order> getOrders(){
-        Log.d("order","GET ORDERS CALLED");
+    public ArrayList<CartInfo> getCartList(){
+        Log.d("order","GET CARTS CALLED");
 
-        return orderList;
+        return cartList;
     }
 
 }

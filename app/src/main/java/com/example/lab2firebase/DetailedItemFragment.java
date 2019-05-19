@@ -11,6 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class DetailedItemFragment extends Fragment {
@@ -21,6 +28,9 @@ public class DetailedItemFragment extends Fragment {
     TextView totalPrice;
     Context thiscontext;
     protected Activity mActivity;
+    private DatabaseReference databaseFoodOrdered;
+    private String myRestaurantID;
+    ArrayList<OrderdFood> items;
 
 
 
@@ -32,6 +42,9 @@ public class DetailedItemFragment extends Fragment {
         orderNumber = (TextView) v.findViewById(com.example.lab2firebase.R.id.orderNb_textView);
         totalPrice = (TextView) v.findViewById(com.example.lab2firebase.R.id.totalPrice_textView);
 
+        myRestaurantID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
         return v;
     }
 
@@ -42,13 +55,35 @@ public class DetailedItemFragment extends Fragment {
 
     }
 
-    public void updateView(Order current_order){
-        ArrayList<ItemOrdered> items = current_order.getAllItems();
-        if(mActivity!=null) {
-            DetailedItemAdapter detailedItemAdapter = new DetailedItemAdapter(mActivity, items);
-            itemsListView.setAdapter(detailedItemAdapter);
+    public void updateView(CartInfo current_order){
 
-            orderNumber.setText("Order n°" + current_order.getId());
+
+        databaseFoodOrdered = FirebaseDatabase.getInstance().getReference("CartFoods")
+                .child(current_order.getCustomerId())
+                .child(myRestaurantID)
+                .child("Foods");
+
+        databaseFoodOrdered.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                items.clear();
+                for(DataSnapshot foodSnap : dataSnapshot.getChildren()){
+                    OrderdFood thisFood = (OrderdFood) foodSnap.getValue(OrderdFood.class);
+                    items.add(thisFood);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if(mActivity!=null) {
+            OrderdFoodAdapter orderdFoodAdapterAdapter = new OrderdFoodAdapter(mActivity, items);
+            itemsListView.setAdapter(orderdFoodAdapterAdapter);
+
+            orderNumber.setText("Order n°" + current_order.getOrderedId());
 
             totalPrice.setText("Total: " + current_order.getTotalPrice() + "€");
         }
