@@ -63,7 +63,6 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         databaseOrder.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //orderList.clear();
                 cartList.clear();
                 Log.d("RESTO ID", "id: "+myRestaurantID);
 
@@ -79,40 +78,6 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
                         }
                     }
-
-
-                    //if(cart.getRestaurantId()== myRestaurantID){ // We check that this Order is for our Restaurant
-
-                        //We retrieve the Food belonging to this order
-                        /*databaseFoodOrdered =FirebaseDatabase.getInstance().getReference("CartFoods")
-                                .child(cart.getCustomerId())
-                                .child(myRestaurantID)
-                                .child("Foods");
-
-                        databaseFoodOrdered.addValueEventListener(new ValueEventListener() { //Reading part of the db containing our food
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                itemList.clear();
-                                for (DataSnapshot foodOrderedSnap : dataSnapshot.getChildren()){
-                                    OrderdFood foodOrdered = foodOrderedSnap.getValue(OrderdFood.class);
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        })*/
-
-                        //ArrayList<Object> itemsOrdered =
-                        //Order thisOrder = new Order(order_id, cart.getCustomerName(), itemList);
-                    //}
-
-                    //ArrayList<Object> itemsOrdered = (ArrayList<Object>) orderSnapshot.child("allItems").getValue();
-
-                    //orders.setItems(itemList);
-                    //orderList.add(orders);
 
                 int orientation = getResources().getConfiguration().orientation;
                 Log.d("FRAG","FRAGMENTS CALLED");

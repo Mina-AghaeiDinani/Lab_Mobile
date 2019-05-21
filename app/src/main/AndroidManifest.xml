@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lab2firebase">
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -17,9 +20,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/chef"
@@ -27,34 +27,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.lab2firebase.EditProfileActivity" />
-        <activity android:name="com.example.lab2firebase.ProfileActivity" />
-        <activity android:name="com.example.lab2firebase.SignUpActivity" />
-        <activity android:name="com.example.lab2firebase.ApplyHelpActivity" />
-        <activity android:name="com.example.lab2firebase.PasswordActivity" />
-        <activity android:name="com.example.lab2firebase.CircleMenu" />
-        <activity android:name="com.example.lab2firebase.FoodDetailsActivity" />
-        <activity android:name="com.example.lab2firebase.CurrentOrders" />
-        <activity android:name="com.example.lab2firebase.DetailedItemActivity" />
-        <activity android:name="com.example.lab2firebase.FoodListActivity" />
-        <activity android:name="com.example.lab2firebase.RestaurantProfile" />
-        <activity android:name="com.example.lab2firebase.EditRestaurantProfile" />
-        <activity android:name="com.example.lab2firebase.MainActivity" />
-        <activity android:name="com.example.lab2firebase.NewDailyOffer" />
-        <activity android:name="com.example.lab2firebase.LoginActivity">
 
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".ApplyHelpActivity" />
+        <activity android:name=".PasswordActivity" />
+        <activity android:name=".CircleMenu" />
+        <activity android:name=".FoodDetailsActivity" />
+        <activity android:name=".CurrentOrders" />
+        <activity android:name=".DetailedItemActivity" />
+        <activity android:name=".FoodListActivity" />
+        <activity android:name=".RestaurantProfile" />
+        <activity android:name=".EditRestaurantProfile" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".NewDailyOffer" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_orders" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>
