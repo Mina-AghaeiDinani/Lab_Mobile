@@ -3,6 +3,8 @@ package com.example.lab2firebase;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,13 +86,28 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
                 if(orientation == Configuration.ORIENTATION_PORTRAIT){
                     setContentView(com.example.lab2firebase.R.layout.activity_current_orders);
-                    if (findViewById(com.example.lab2firebase.R.id.fragment_container)!= null){
-                        if (saveState != null){
-                            return;
+                    OrdersFragment f1 = (OrdersFragment) getSupportFragmentManager().findFragmentById(com.example.lab2firebase.R.id.fragment_container);
+
+                    if(f1 != null && f1.isAdded()){
+                        Log.d("FRAG","UPDATING FRAGMENTS");
+                        Fragment frg = null;
+                        frg = getSupportFragmentManager().findFragmentById(com.example.lab2firebase.R.id.fragment_container);
+                        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.detach(frg);
+                        ft.attach(frg);
+                        ft.commit();
+
+                    }else {
+                        Log.d("FRAG","CREATING FRAGMENTS");
+
+                        if (findViewById(com.example.lab2firebase.R.id.fragment_container) != null) {
+                            if (saveState != null) {
+                                return;
+                            }
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(com.example.lab2firebase.R.id.fragment_container, fragment1)
+                                    .commit();
                         }
-                        getSupportFragmentManager().beginTransaction()
-                                .add(com.example.lab2firebase.R.id.fragment_container, fragment1)
-                                .commit();
                     }
                 }else if(orientation == Configuration.ORIENTATION_LANDSCAPE){
                     setContentView(com.example.lab2firebase.R.layout.activity_current_orders_landscape);
