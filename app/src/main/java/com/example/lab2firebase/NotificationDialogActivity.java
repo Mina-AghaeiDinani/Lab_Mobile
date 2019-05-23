@@ -20,6 +20,7 @@ public class NotificationDialogActivity extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+
         Bundle args = getArguments();
         order_id = args.getString("new_orderID");
 

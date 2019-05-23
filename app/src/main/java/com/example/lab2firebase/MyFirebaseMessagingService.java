@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public static int NOTIFICATION_ID = 1;
+    LocalBroadcastManager busAppRunning; //enables to send a broadcast message to all processes to know if an activity is running in foreground
 
     @Override
     public void onNewToken(String s) {
@@ -29,9 +31,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("MSGRECEIVED", "remote: "+ remoteMessage);
-
         if (remoteMessage.getNotification() != null) {
             String orderId = remoteMessage.getNotification().getTag(); //The ID of the order is stored in the tag when the notification is sent
+
+            /* We first send a message containing the order Id in broadcast to check if the desired activity is running*/
+            Intent broadcastIntent = new Intent("message_received");
+            broadcastIntent.putExtra("msg_order_id", orderId);
+            busAppRunning.getInstance(this).sendBroadcast(broadcastIntent);
+
             Log.d("NOTIFICATION", "Order: " + orderId);
             generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), orderId);
 
@@ -42,7 +49,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void generateNotification(String body, String title, String orderId) {
         Intent intent = new Intent(this, CurrentOrders.class);
-        intent.putExtra("order_id", orderId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent

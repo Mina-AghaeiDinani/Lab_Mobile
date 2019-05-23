@@ -1,11 +1,16 @@
 package com.example.lab2firebase;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,19 +46,17 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         super.onCreate(savedInstanceState);
         final Bundle saveState = savedInstanceState;
 
-        Intent notificationIntent = getIntent();
-        String notification_order_id = notificationIntent.getStringExtra("order_id");
+        /* We check if we receive a broadcast message from the service receiving the notification*/
+        LocalBroadcastManager.getInstance(this).registerReceiver(onNotice,
+                new IntentFilter("message_received"));
+
+
 
 
         cartList = new ArrayList<>();
 
         myRestaurantID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //If we receive a notification, we have to handle it as a priority:
-        if(notification_order_id != null){
-            openNotificationDialog(notification_order_id);
-            Log.d("NOTI", "id:"+ notification_order_id);
-        }
 
         /****** WE NOW CREATE THE VIEW DEPENDING ON THE DEVICE AND ORIENTATION *****/
 
@@ -74,10 +77,15 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
                         CartInfo cart = (CartInfo) orderSnap.getValue(CartInfo.class);
 
                         // We check that this Order is for our Restaurant and that it was accepted
-                        if((myRestaurantID.equals(cart.getRestaurantId())) && (cart.getStatus().equals("accepted"))){
-                            //If it is the case, we add it to the list we will display
-                            cart.setOrderedId(orderSnap.getKey());
-                            cartList.add(cart);
+                        if(myRestaurantID.equals(cart.getRestaurantId())){
+                            if(cart.getStatus().equals("accepted")) {
+                                //If the order is accepted, we add it to the list we will display
+                                cart.setOrderedId(orderSnap.getKey());
+                                cartList.add(cart);
+                            }else if(cart.getStatus().equals("pending")){
+                                //if the order is pending we bring the dialog to accept or decline it
+                                openNotificationDialog(orderSnap.getKey());
+                            }
                         }
                     }
                 displayFragments();
@@ -90,12 +98,29 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
         });
 
+    }
 
+    private BroadcastReceiver onNotice= new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("BROADCAST", "inside broadcast");
+            String orderID = intent.getStringExtra("msg_order_id");
+            openNotificationDialog(orderID);
 
+        }
+    };
 
+    protected void onResume() {
+        super.onResume();
 
+        IntentFilter iff= new IntentFilter("message_ACTION");
+        LocalBroadcastManager.getInstance(this).registerReceiver(onNotice, iff);
+    }
 
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onNotice);
     }
 
     @Override
@@ -132,6 +157,8 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
     }
 
     public void openNotificationDialog(String order_id){ //Method called when a new element is added from the database
+
+
         NotificationDialogActivity notificationDialog = new NotificationDialogActivity();
         Bundle notificationBundle = new Bundle();
         notificationBundle.putString("new_orderID",order_id);
@@ -143,6 +170,10 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
     @Override
     public void acceptOrder(String order) {
+        /* First, we cancel all the notification pending since we opened the corresponding activity*/
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+
         databaseOrder = FirebaseDatabase.getInstance().getReference()
                 .child("OrderInfo").child(order);
 
@@ -170,6 +201,10 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
     @Override
     public void declineOrder(String order) {
+        /* First, we cancel all the notification pending since we opened the corresponding activity*/
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+
         databaseOrder = FirebaseDatabase.getInstance().getReference()
                 .child("OrderInfo").child(order);
         databaseOrder.child("status").setValue("declined");

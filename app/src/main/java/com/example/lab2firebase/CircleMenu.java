@@ -51,9 +51,9 @@ public class CircleMenu extends AppCompatActivity {
                         {
                             action=5;
                         }
-                        else if (index==6)
+                        else if (index==0)
                         {
-                            action=6;
+                            action=0;
                         }
                     }
 
