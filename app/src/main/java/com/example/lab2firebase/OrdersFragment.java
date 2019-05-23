@@ -78,22 +78,6 @@ public class OrdersFragment extends Fragment {
         });
     }
 
-    public void updateView(){
-        CurrentOrders mainActivity = (CurrentOrders) getActivity();
-        current_carts = (ArrayList<CartInfo>) mainActivity.getCartList();
-        Log.d("ORDER","GET ORDER CALLED"+current_carts);
-        CartInfoAdapter cartAdapter = new CartInfoAdapter(getActivity(), current_carts);
-        orderListView.setAdapter(cartAdapter);
-
-        orderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CartInfo cartClicked = (CartInfo) parent.getItemAtPosition(position);
-                listener.onOrderClicked(cartClicked);
-                Toast.makeText(getActivity(), "Order n°" + cartClicked.getOrderedId(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     @Override
     public void onAttach(Context context) {

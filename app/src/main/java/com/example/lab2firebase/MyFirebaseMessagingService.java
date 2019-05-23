@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -22,21 +23,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.e("DEVICE T OKEN",s);
+        Log.e("DEVICE TOKEN",s);
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
+        Log.d("MSGRECEIVED", "remote: "+ remoteMessage);
 
-        generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle()) ;
+        if (remoteMessage.getNotification() != null) {
+            String orderId = remoteMessage.getNotification().getTag(); //The ID of the order is stored in the tag when the notification is sent
+            Log.d("NOTIFICATION", "Order: " + orderId);
+            generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), orderId);
 
-        // TODO(developer): Handle FCM messages here.
+        }
+
+
     }
 
-
-    private void generateNotification(String body, String title) {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void generateNotification(String body, String title, String orderId) {
+        Intent intent = new Intent(this, CurrentOrders.class);
+        intent.putExtra("order_id", orderId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent
@@ -61,7 +67,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(NOTIFICATION_ID++,notificationBuilder.build());
 
     }
-
 
 
 }
