@@ -83,7 +83,7 @@ public class DetailedItemFragment extends Fragment {
             OrderdFoodAdapter orderdFoodAdapterAdapter = new OrderdFoodAdapter(mActivity, items);
             itemsListView.setAdapter(orderdFoodAdapterAdapter);
 
-            orderNumber.setText("Order n°" + current_order.getOrderedId());
+            orderNumber.setText("Order " + current_order.getOrderNum());
 
             totalPrice.setText("Total: " + current_order.getTotalPrice() + "€");
         }

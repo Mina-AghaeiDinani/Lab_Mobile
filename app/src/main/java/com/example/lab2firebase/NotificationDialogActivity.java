@@ -33,7 +33,7 @@ public class NotificationDialogActivity extends AppCompatDialogFragment {
 
         dialogTextView = view.findViewById(R.id.dialog_textview);
 
-        dialogTextView.setText("Order n°"+order_id+" received. Accept?");
+        dialogTextView.setText("New order received. Accept?");
 
         builder.setView(view)
                 .setTitle("A new order just arrived!")

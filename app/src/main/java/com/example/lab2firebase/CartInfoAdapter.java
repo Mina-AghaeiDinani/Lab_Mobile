@@ -43,7 +43,7 @@ public class CartInfoAdapter extends BaseAdapter{
         TextView priceTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.priceTextView);
         TextView customerTextView = (TextView) v.findViewById(com.example.lab2firebase.R.id.customerTextView);
 
-        String order = "Order n°"+currentCart.getOrderedId();
+        String order = "Order "+currentCart.getOrderNum();
         String nbitem = ""+currentCart.getTotalItems()+" items";
         String price = ""+currentCart.getTotalPrice()+"€";
         String customer = currentCart.getCustomerName();

@@ -65,7 +65,7 @@ public class DetailedItemActivity extends AppCompatActivity implements Serializa
                         OrderdFoodAdapter orderdFoodAdapter = new OrderdFoodAdapter(getApplicationContext(), foodList);
                         itemsListView.setAdapter(orderdFoodAdapter);
 
-                        orderNumber.setText("Order n°" + current_cart.getOrderedId());
+                        orderNumber.setText("Order " + current_cart.getOrderNum());
 
                         totalPrice.setText("Total: " + current_cart.getTotalPrice() + "€");
                     }

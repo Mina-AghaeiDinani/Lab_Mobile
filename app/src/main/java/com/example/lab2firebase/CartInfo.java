@@ -8,13 +8,14 @@ public class CartInfo implements Serializable {
     private String customerId,customerName,customerImage;
     private String restaurantId,restaurantName,restaurantImage,restaurantComment;
     private String status,orderedId;
+    private String orderNum;
     private String totalPrice,totalItems;
 
     public CartInfo() {
         //Constructor , it is needed
     }
 
-    public CartInfo(String status, String orderedId
+    public CartInfo(String status, String orderedId, String orderNum
             , String customerId, String customerName, String customerImage
             , String restaurantId, String restaurantName, String restaurantImage, String restaurantComment
             , String totalItems, String totalPrice) {
@@ -25,6 +26,7 @@ public class CartInfo implements Serializable {
         this.restaurantComment=restaurantComment;
         this.customerId = customerId;
         this.customerImage=customerImage;
+        this.orderNum = orderNum;
         this.customerName=customerName;
         this.status=status;
         this.orderedId=orderedId;
@@ -33,6 +35,13 @@ public class CartInfo implements Serializable {
 
     }
 
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
 
     public String getRestaurantComment() {
         return restaurantComment;

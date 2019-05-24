@@ -17,4 +17,6 @@
     <color name="colorRestaurantTransparent">#AD2DAEA9</color>
     <color name="riderColor">#00a8f3</color>
     <color name="lightGrayTransparent">#F1EFEF</color>
+    <color name="orderGrayTransparent">#80F1EFEF</color>
+
 </resources>

@@ -39,6 +39,7 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
 
 
     DatabaseReference databaseOrder;
+    DatabaseReference databaseCurrentOrderNum;
 
 
     @Override
@@ -66,6 +67,9 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         databaseOrder = FirebaseDatabase.getInstance().getReference()
                 .child("OrderInfo");
 
+        databaseCurrentOrderNum = FirebaseDatabase.getInstance().getReference()
+                .child("CurrentOrderNum");
+
         databaseOrder.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,14 +78,16 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
                 // First, we read the db for each order
                     for (DataSnapshot orderSnap : dataSnapshot.getChildren()){
                         Log.d("ORDER SNAP", "order: "+orderSnap);
-                        CartInfo cart = (CartInfo) orderSnap.getValue(CartInfo.class);
+                        final CartInfo cart = (CartInfo) orderSnap.getValue(CartInfo.class);
 
                         // We check that this Order is for our Restaurant and that it was accepted
                         if(myRestaurantID.equals(cart.getRestaurantId())){
+
                             if(cart.getStatus().equals("accepted")) {
                                 //If the order is accepted, we add it to the list we will display
                                 cart.setOrderedId(orderSnap.getKey());
                                 cartList.add(cart);
+
                             }else if(cart.getStatus().equals("pending")){
                                 //if the order is pending we bring the dialog to accept or decline it
                                 openNotificationDialog(orderSnap.getKey());
@@ -169,7 +175,7 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
     }
 
     @Override
-    public void acceptOrder(String order) {
+    public void acceptOrder(final String order) {
         /* First, we cancel all the notification pending since we opened the corresponding activity*/
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
@@ -181,11 +187,30 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         databaseOrder.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                CartInfo incomingOrder = dataSnapshot.getValue(CartInfo.class);
-                incomingOrder.setOrderedId(dataSnapshot.getKey());
+                final CartInfo incomingOrder = dataSnapshot.getValue(CartInfo.class);
+                databaseCurrentOrderNum.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int currentOrderNum = dataSnapshot.getValue(Integer.class);
+                        if (currentOrderNum>99999){
+                            currentOrderNum = 10000;
+                        }
+                        String newOrderNum = (String) Integer.toString((currentOrderNum+1));
+                        incomingOrder.setOrderNum(newOrderNum);
+                        databaseCurrentOrderNum.setValue((currentOrderNum+1));
+                        databaseOrder.child("orderNum").setValue(newOrderNum);
+                        incomingOrder.setOrderedId(order);
 
-                cartList.add(incomingOrder);
-                displayFragments();
+                        cartList.add(incomingOrder);
+                        displayFragments();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
 
@@ -195,7 +220,7 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
             }
         });
 
-        Toast.makeText(getApplicationContext(),"Order "+order+" Accepted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Order Accepted", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -208,7 +233,7 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
         databaseOrder = FirebaseDatabase.getInstance().getReference()
                 .child("OrderInfo").child(order);
         databaseOrder.child("status").setValue("declined");
-        Toast.makeText(getApplicationContext(),"Order "+order+" Declined", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Order Declined", Toast.LENGTH_SHORT).show();
 
     }
 

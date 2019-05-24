@@ -49,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void generateNotification(String body, String title, String orderId) {
         Intent intent = new Intent(this, CurrentOrders.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //FLAG_ACTIVITY_CLEAR_TOP
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent
         , PendingIntent.FLAG_ONE_SHOT);

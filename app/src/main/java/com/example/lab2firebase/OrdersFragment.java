@@ -73,7 +73,7 @@ public class OrdersFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CartInfo cartClicked = (CartInfo) parent.getItemAtPosition(position);
                 listener.onOrderClicked(cartClicked);
-                Toast.makeText(getActivity(), "Order n°"+cartClicked.getOrderedId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Order "+cartClicked.getOrderNum(), Toast.LENGTH_SHORT).show();
             }
         });
     }
