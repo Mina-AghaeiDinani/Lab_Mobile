@@ -1,5 +1,6 @@
 package com.example.lab2firebase;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -220,10 +222,17 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
             }
         });
 
+        //Order has been accepted so we search the nearest rider
+        startNearestRiderService(order);
         Toast.makeText(getApplicationContext(),"Order Accepted", Toast.LENGTH_SHORT).show();
 
     }
 
+    public void startNearestRiderService(String order){
+        Intent intent = new Intent(this, NearestRiderService.class);
+        intent.putExtra("order_id", order);
+        startService(intent);
+    }
     @Override
     public void declineOrder(String order) {
         /* First, we cancel all the notification pending since we opened the corresponding activity*/

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lab2firebase">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -27,9 +28,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
-            android:name=".MyFirebaseMessagingService">
+            android:name=".NearestRiderService"
+            android:enabled="true"
+            android:exported="false"></service>
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -39,14 +42,14 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ApplyHelpActivity" />
-        <activity android:name=".NearestRiderActivity"></activity>
-
+        <activity android:name=".NearestRiderActivity" />
         <activity android:name=".PasswordActivity" />
         <activity android:name=".CircleMenu" />
         <activity android:name=".FoodDetailsActivity" />
         <activity android:name=".CurrentOrders">
             <intent-filter>
-                <action android:name="OPEN_CURRENT_ORDERS_ACTIVITY"/>
+                <action android:name="OPEN_CURRENT_ORDERS_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
