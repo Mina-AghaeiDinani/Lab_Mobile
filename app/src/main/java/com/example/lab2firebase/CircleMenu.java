@@ -28,7 +28,7 @@ public class CircleMenu extends AppCompatActivity {
                 .addSubMenu(Color.parseColor("#FF4B32"), com.example.lab2firebase.R.drawable.add_menu)
                 .addSubMenu(Color.parseColor("#8A39FF"), com.example.lab2firebase.R.drawable.sign_out)
                 .addSubMenu(Color.parseColor("#D8A104"), com.example.lab2firebase.R.drawable.view_icon)
-                .addSubMenu(Color.parseColor("#D81B60"), com.example.lab2firebase.R.drawable.help)
+                .addSubMenu(Color.parseColor("#D81B60"), R.drawable.rider_24dp)
                 .setOnMenuSelectedListener(new OnMenuSelectedListener() {
 
                     @Override
@@ -79,6 +79,10 @@ public class CircleMenu extends AppCompatActivity {
                 }
                 if (action==4) {
                     Intent intent = new Intent(CircleMenu.this, FoodListActivity.class);
+                    startActivity(intent);
+                }
+                if (action==5) {
+                    Intent intent = new Intent(CircleMenu.this, NearestRiderActivity.class);
                     startActivity(intent);
                 }
                 if (action==0) {

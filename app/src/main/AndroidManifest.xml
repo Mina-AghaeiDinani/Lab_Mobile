@@ -39,6 +39,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ApplyHelpActivity" />
+        <activity android:name=".NearestRiderActivity"></activity>
+
         <activity android:name=".PasswordActivity" />
         <activity android:name=".CircleMenu" />
         <activity android:name=".FoodDetailsActivity" />
