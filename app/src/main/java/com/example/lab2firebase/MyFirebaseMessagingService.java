@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -33,15 +35,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("MSGRECEIVED", "remote: "+ remoteMessage);
         if (remoteMessage.getNotification() != null) {
             String orderId = remoteMessage.getNotification().getTag(); //The ID of the order is stored in the tag when the notification is sent
-
+            Map<String,String> data = remoteMessage.getData();
+            String status = data.get("status");
+            Log.d("STATUSSS", ""+status);
             /* We first send a message containing the order Id in broadcast to check if the desired activity is running*/
             Intent broadcastIntent = new Intent("message_received");
             broadcastIntent.putExtra("msg_order_id", orderId);
             busAppRunning.getInstance(this).sendBroadcast(broadcastIntent);
 
-            Log.d("NOTIFICATION", "Order: " + orderId);
-            generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), orderId);
-
+            if(status.equals("pending")) {
+                Log.d("NOTIFICATION", "Order: " + orderId);
+                generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), orderId);
+            }
         }
 
 

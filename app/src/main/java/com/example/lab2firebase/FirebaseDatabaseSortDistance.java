@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class FirebaseDatabaseSortDistance {
@@ -38,10 +39,16 @@ public class FirebaseDatabaseSortDistance {
                 orderdFoods.clear();
                 List<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : dataSnapshot.getChildren()){
-                    keys.add(keyNode.getKey());
+                    //keys.add(keyNode.getKey());
                     Distance distance=keyNode.getValue(Distance.class);
-                    sortdistance();
+                    distance.setRiderId(keyNode.getKey());
                     orderdFoods.add(distance);
+                    sortdistance();
+
+                }
+                int i;
+                for (i=0; i<orderdFoods.size(); i++){
+                    keys.add(orderdFoods.get(i).getRiderId());
                 }
 
                 dataStatus.DataIsLoaded(orderdFoods,keys);

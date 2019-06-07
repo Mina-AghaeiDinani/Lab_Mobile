@@ -1,9 +1,14 @@
 package com.example.lab2firebase;
+
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,8 +43,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class NearestRiderActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private DatabaseReference mReferenceLocations, mReferenceLocations2;
     private DatabaseReference mReference;
+
     private ArrayList<RiderLocation> riderLocations;
     TextView textView;
     String mystring;
@@ -63,9 +71,10 @@ public class NearestRiderActivity extends AppCompatActivity {
         places = new ArrayList<>();
         mReferenceLocations = FirebaseDatabase.getInstance().getReference().child("RidersLocation");
 
+
         //We get the location of the Restaurant
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+        getCurrentLocation();
 
         mReferenceLocations.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,8 +92,12 @@ public class NearestRiderActivity extends AppCompatActivity {
                 int i;
                 double distance;
 
+                DatabaseReference riderDistanceRef = FirebaseDatabase.getInstance().getReference("RiderDistance");
+                riderDistanceRef.removeValue();
+
                 for (i = 0; i < riderLocations.size(); i++) {
-                    distance = CalculationByDistance(initiallat,initiallng, riderLocations.get(i).getLatLng().latitude, riderLocations.get(i).getLatLng().longitude);
+                    Log.d("MYLOCATIONS23", "lat: " + initiallat + "long: " + initiallng);
+                    distance = CalculationByDistance(initiallat, initiallng, riderLocations.get(i).getLatLng().latitude, riderLocations.get(i).getLatLng().longitude);
                     String riderId = (riderLocations.get(i).getKey());
                     //................
                     //....
@@ -92,8 +105,8 @@ public class NearestRiderActivity extends AppCompatActivity {
                     distance1.setDistance(distance);
                     distance1.setRiderId(riderId);
 
-                    FirebaseDatabase.getInstance().getReference("RiderDistance")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+                    riderDistanceRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(riderId).setValue(distance1);
                     //..............
                     //distances.add( new Distance(distance,restId) );
@@ -132,34 +145,80 @@ public class NearestRiderActivity extends AppCompatActivity {
             public void DataIsDeleted() {
 
             }
-        },mReference);
-
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        Log.d("LOCATION", "loc:" + location);
-                        if (location != null) {
-                            initiallng = location.getLongitude();
-                            initiallat = location.getLatitude();
-                        }
-                    }
-                });
+        }, mReference);
 
 
     }
 
+    private void getCurrentLocation() {
+        // Here, thisActivity is the current activity
+
+        if (ContextCompat.checkSelfPermission(NearestRiderActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(NearestRiderActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("Required Location Permission")
+                        .setMessage("You need to give this permission to find a rider for your course!")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(NearestRiderActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(NearestRiderActivity.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                initiallng = location.getLongitude();
+                                initiallat = location.getLatitude();
+                                Log.d("MYLOCATION", "lat: " + initiallat + "long: "+initiallng);
+
+                            }
+                        }
+                    });
+            // Permission has already been granted
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }else{
+
+            }
+        }
+    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
@@ -204,6 +263,10 @@ public class NearestRiderActivity extends AppCompatActivity {
 
         });
     }
+
+
+
+
    /* Circle circle = mMap.addCircle(new CircleOptions()
             .center(new LatLng(myPositionMarker.getPosition().latitude,myPositionMarker.getPosition().longitude))
             .radius(10000)

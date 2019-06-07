@@ -78,7 +78,30 @@ public class NearestRiderService extends IntentService {
 
         //We get the location of the Restaurant
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+        }
+        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Log.d("LOCATION", "loc:" + location);
+                if (location != null) {
+                    initiallng = location.getLongitude();
+                    initiallat = location.getLatitude();
+                }
+            }
+        });
+        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Log.d("MYLOCATION", "loc:" + location);
+                if (location != null) {
+                    initiallng = location.getLongitude();
+                    initiallat = location.getLatitude();
+                }
+            }
+        });
 
         mReferenceLocations.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,6 +119,9 @@ public class NearestRiderService extends IntentService {
                 int i;
                 double distance;
 
+                DatabaseReference riderDistanceRef = FirebaseDatabase.getInstance().getReference("RiderDistance");
+                riderDistanceRef.removeValue();
+
                 for (i = 0; i < riderLocations.size(); i++) {
                     distance = CalculationByDistance(initiallat,initiallng, riderLocations.get(i).getLatLng().latitude, riderLocations.get(i).getLatLng().longitude);
                     String riderId = (riderLocations.get(i).getKey());
@@ -105,18 +131,22 @@ public class NearestRiderService extends IntentService {
                     distance1.setDistance(distance);
                     distance1.setRiderId(riderId);
 
-                    FirebaseDatabase.getInstance().getReference("RiderDistance")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    riderDistanceRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(riderId).setValue(distance1);
                     //..............
                     distances.add( new Distance(distance,riderId) );
-                    sortdistance();
+                    sortdistance(distances);
+
+
+                }
+                if(!distances.isEmpty()) {
                     databaseOrder = FirebaseDatabase.getInstance().getReference()
                             .child("OrderInfo").child(orderID);
                     databaseOrder.child("riderId").setValue(distances.get(0).getRiderId());
-
+                    Log.d("DIST SORTED", "" + distances);
+                }else{
+                    Log.d("NO RIDER AROUND", "" + distances);
                 }
-                Log.d("DIST SORTED", ""+distances);
             }
 
             @Override
@@ -124,30 +154,9 @@ public class NearestRiderService extends IntentService {
 
             }
         });
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                Log.d("LOCATION", "loc:" + location);
-                if (location != null) {
-                    initiallng = location.getLongitude();
-                    initiallat = location.getLatitude();
-                }
-            }
-        });
 
 
 
-        //TODO add code ot find the nearest rider activity
     }
 
     public double CalculationByDistance(double initialLat, double initialLong, double finalLat, double finalLong) {
@@ -162,8 +171,8 @@ public class NearestRiderService extends IntentService {
         return distance;
     }
 
-    public void sortdistance() {
-        Collections.sort(distances, new Comparator<Distance>() {
+    public void sortdistance(List<Distance> distarray) {
+        Collections.sort(distarray, new Comparator<Distance>() {
             @Override
             public int compare(Distance o1, Distance o2) {
                 return o1.getDistance().compareTo(o2.getDistance());
