@@ -93,6 +93,12 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
                             }else if(cart.getStatus().equals("pending")){
                                 //if the order is pending we bring the dialog to accept or decline it
                                 openNotificationDialog(orderSnap.getKey());
+                            }else if(cart.getStatus().equals("course declined")){
+                                databaseOrder = FirebaseDatabase.getInstance().getReference()
+                                        .child("OrderInfo").child(orderSnap.getKey());
+
+                                databaseOrder.child("status").setValue("accepted");
+                                startNearestRiderService(orderSnap.getKey());
                             }
                         }
                     }
