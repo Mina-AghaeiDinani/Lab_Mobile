@@ -85,7 +85,7 @@ public class CurrentOrders extends AppCompatActivity implements OrdersFragment.O
                         // We check that this Order is for our Restaurant and that it was accepted
                         if(myRestaurantID.equals(cart.getRestaurantId())){
 
-                            if(cart.getStatus().equals("accepted")) {
+                            if(cart.getStatus().equals("accepted")||cart.getStatus().equals("in course")) {
                                 //If the order is accepted, we add it to the list we will display
                                 cart.setOrderedId(orderSnap.getKey());
                                 cartList.add(cart);

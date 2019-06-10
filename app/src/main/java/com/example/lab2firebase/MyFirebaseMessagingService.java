@@ -42,22 +42,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent broadcastIntent = new Intent("message_received");
             broadcastIntent.putExtra("msg_order_id", orderId);
             busAppRunning.getInstance(this).sendBroadcast(broadcastIntent);
+            
+            generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), status);
 
-            if(status.equals("pending")) {
-                Log.d("NOTIFICATION", "Order: " + orderId);
-                generateNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle(), orderId);
-            }
         }
 
 
     }
 
-    private void generateNotification(String body, String title, String orderId) {
-        Intent intent = new Intent(this, CurrentOrders.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //FLAG_ACTIVITY_CLEAR_TOP
+    private void generateNotification(String body, String title, String status) {
+            Intent intent = new Intent(this, CurrentOrders.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //FLAG_ACTIVITY_CLEAR_TOP
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent
-        , PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent
+                    , PendingIntent.FLAG_ONE_SHOT);
+
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
