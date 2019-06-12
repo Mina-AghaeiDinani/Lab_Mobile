@@ -76,7 +76,7 @@ public class NearestRiderActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getCurrentLocation();
 
-        mReferenceLocations.addValueEventListener(new ValueEventListener() {
+        mReferenceLocations.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 riderLocations.clear();

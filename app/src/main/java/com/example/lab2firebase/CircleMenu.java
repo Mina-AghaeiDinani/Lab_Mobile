@@ -20,7 +20,7 @@ public class CircleMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.example.lab2firebase.R.layout.activity_circle_menu);
         firebaseAuth=FirebaseAuth.getInstance();
-        action=0;
+        action=-1;
         circleMenu =  findViewById(com.example.lab2firebase.R.id.circleMenu);
         circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), com.example.lab2firebase.R.drawable.add, com.example.lab2firebase.R.drawable.remove)
                 .addSubMenu(Color.parseColor("#258CFF"), com.example.lab2firebase.R.drawable.notification)
