@@ -2,6 +2,9 @@ package com.example.lab2firebase;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.os.Handler;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,21 +28,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText txt_Name, txt_Mail, txt_Phone, txt_Password;
     private de.hdodenhof.circleimageview.CircleImageView imgProfile;
-    private EditText  txt_Description, txt_NameRest, txt_PhoneRest;
+    private EditText txt_Description, txt_NameRest, txt_PhoneRest;
     private EditText Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
+    private StorageTask mUploadTask;
     //*********Define variables to read from camera and put in ImageView
     private Uri image_uri;
     ImageButton btnSelectPhoto;
@@ -236,7 +248,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
-                            RestaurantsProfile restaurantsProfile = new RestaurantsProfile();
+                            addInfo();
+                            /*RestaurantsProfile restaurantsProfile = new RestaurantsProfile();
                             restaurantsProfile.setName(name);
                             restaurantsProfile.setEmail(email);
                             restaurantsProfile.setPhone(phone);
@@ -261,12 +274,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                       // Toast.makeText(SignUpActivity.this, "Registration has been done!", Toast.LENGTH_LONG).show();
+                                        // Toast.makeText(SignUpActivity.this, "Registration has been done!", Toast.LENGTH_LONG).show();
                                     } else {
                                         // display a failure message
                                     }
                                 }
-                            });
+                            });*/
 
                         } else {
                             //If email has been already registered
@@ -280,5 +293,77 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private String getExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    //
+    private void addInfo() {
+        Toast.makeText(SignUpActivity.this, "Please wait...", Toast.LENGTH_LONG).show();
+        mStorageRef = FirebaseStorage.getInstance().getReference("Restaurants");
+        if (image_uri != null) {
+            final StorageReference fileReferences = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(image_uri));
+            mUploadTask = fileReferences.putFile(image_uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setProgress(0);
+                                }
+                            }, 500);
+                            fileReferences.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+
+                                    RestaurantsProfile restaurantsProfile = new RestaurantsProfile(
+                                            txt_Name.getText().toString().trim(),
+                                            txt_Phone.getText().toString().trim(),
+                                            txt_Mail.getText().toString().trim(),
+                                            txt_NameRest.getText().toString().trim(),
+                                            txt_PhoneRest.getText().toString().trim(),
+                                            txt_Description.getText().toString().trim(),
+                                            uri.toString(),
+                                    Monday.getText().toString().trim(),
+                                    Tuesday.getText().toString().trim(),
+                                    Wednesday.getText().toString().trim(),
+                                    Thursday.getText().toString().trim(),
+                                    Friday.getText().toString().trim(),
+                                    Saturday.getText().toString().trim(),
+                                    Sunday.getText().toString().trim(),
+                                    0, 0);
+                                    FirebaseDatabase.getInstance().getReference("Restaurants")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(restaurantsProfile);
+
+
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            progressBar.setProgress((int) progress);
+                        }
+                    });
+
+        } else
+            Toast.makeText(SignUpActivity.this, "no photo has been selected", Toast.LENGTH_LONG).show();
+
+
     }
 }
