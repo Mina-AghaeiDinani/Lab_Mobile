@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/colorRestaurant</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/lightGrey1</item>
+        <item name="colorControlActivated">@color/duskYellow</item>
+    </style>
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">#DD0A51</item>

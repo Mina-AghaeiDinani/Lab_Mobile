@@ -45,10 +45,19 @@
                 android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-
                 android:src="@drawable/logo_restaurant" />
 
-
+            <RatingBar
+                android:id="@+id/ratingBarRider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5"
+                android:clickable="false"
+                android:isIndicator="true"
+                android:theme="@style/RatingBar"
+                android:accessibilityHeading="false" />
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"

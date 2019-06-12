@@ -12,6 +12,7 @@ import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
-
+    private  RatingBar rate;
     TextView tvName,tvNameRestaurant,tvMail,tvPhone,tvLocalPhone,tvDescription;
     TextView tvMonday,tvTuesday,tvWednesday,tvThursday,tvFriday,tvSaturday,tvSunday;
     private de.hdodenhof.circleimageview.CircleImageView imgProfile;
@@ -67,6 +68,9 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        //................
+        //Rating bar
+        rate = (RatingBar) findViewById(R.id.ratingBarRider);
         // for swap
         layout = findViewById(R.id.Layout);
         constraintSetOld.clone(layout);
@@ -78,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         //we have to write codes in different functions
         Toolbar toolbar = findViewById(R.id.toolbarEdit);
         setSupportActionBar(toolbar);
-        //end of code related to toolba
+        //end of code related to toolbar
         //..authentication
         firebaseAuth=FirebaseAuth.getInstance();
         //reading from data base
@@ -124,7 +128,8 @@ public class ProfileActivity extends AppCompatActivity {
                         .centerCrop()
                         .into(imgProfile);
 
-
+                //rate is added
+                rate.setRating(restaurantsProfile.getRating());
                 tvMonday.setText(restaurantsProfile.getMonday());
                 tvTuesday.setText(restaurantsProfile.getTuesday());
                 tvWednesday.setText(restaurantsProfile.getWednesday());

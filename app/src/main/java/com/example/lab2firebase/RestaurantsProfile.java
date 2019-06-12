@@ -2,40 +2,64 @@ package com.example.lab2firebase;
 
 public class RestaurantsProfile {
     //Property name must be the same as what we defined in real time database
-    private String name, phone, email ,imageUrl;
-    private String namerestaurant,phonerestaurant,description;
-    private String monday,tuesday,wednesday,thursday,friday,saturday,sunday;
+    private String name, phone, email, imageUrl;
+    private String namerestaurant, phonerestaurant, description;
+    private String monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+    private float rating;
+    private int numCustomerOpinion;
     public RestaurantsProfile() {
         //Constructor , it is needed
     }
 
-    public RestaurantsProfile(String name, String phone, String email,String namerestaurant,String phonerestaurant, String description, String imageUrl,String monday,String tuesday,String wednesday,String thursday,String friday,String saturday,String sunday) {
+    public RestaurantsProfile(String name, String phone, String email, String namerestaurant,
+                              String phonerestaurant, String description, String imageUrl,
+                              String monday, String tuesday, String wednesday, String thursday,
+                              String friday, String saturday, String sunday
+            , int numCustomerOpinion, float rating) {
         this.phone = phone;
         this.imageUrl = imageUrl;
         this.name = name;
         this.email = email;
 
+        this.rating = 0;
+        this.numCustomerOpinion = 0;
 
-
-        this.namerestaurant=namerestaurant;
-        this.phonerestaurant=phonerestaurant;
+        this.namerestaurant = namerestaurant;
+        this.phonerestaurant = phonerestaurant;
         if (description.trim().equals("")) {
             this.description = "Information is not provided";
         } else this.description = description;
 
-        this.monday=monday;
-        this.tuesday=tuesday;
-        this.wednesday=wednesday;
-        this.thursday=thursday;
-        this.friday=friday;
-        this.saturday=saturday;
-        this.sunday=sunday;
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
 
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getNumCustomerOpinion() {
+        return numCustomerOpinion;
+    }
+
+    public void setNumCustomerOpinion(int numCustomerOpinion) {
+        this.numCustomerOpinion = numCustomerOpinion;
     }
 
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -43,13 +67,15 @@ public class RestaurantsProfile {
     public String getPhone() {
         return phone;
     }
+
     public void setPhone(String phone) {
-        this.phone =phone;
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -57,6 +83,7 @@ public class RestaurantsProfile {
     public String getImageUrl() {
         return imageUrl;
     }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

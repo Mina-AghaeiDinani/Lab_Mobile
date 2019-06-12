@@ -9,16 +9,20 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.ViewFlipper;
 
 public class RestaurantProfile extends AppCompatActivity {
-
+    private  RatingBar rate;
     ViewFlipper viewFlipper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.lab2firebase.R.layout.activity_restaurant_profile);
 
+        //................
+        //Rating bar
+        rate = (RatingBar) findViewById(R.id.ratingBarRider);
         //************ViewFlipper
         int images[]={com.example.lab2firebase.R.drawable.abbasi_rest_1, com.example.lab2firebase.R.drawable.abbasi_rest_2, com.example.lab2firebase.R.drawable.abbasi_rest_3, com.example.lab2firebase.R.drawable.abbasi_rest_4};
         viewFlipper=findViewById(com.example.lab2firebase.R.id.viewFlipper);
