@@ -41,8 +41,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgPro"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/logo_restaurant" />
@@ -51,7 +51,7 @@
                 android:id="@+id/ratingBarRider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="3dp"
                 android:layout_gravity="center_horizontal"
                 android:numStars="5"
                 android:clickable="false"
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
 
                 android:fontFamily="sans-serif-black"
                 android:text="Mina Aghaei Dinani"
