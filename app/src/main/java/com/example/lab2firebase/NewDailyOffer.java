@@ -149,7 +149,7 @@ public class NewDailyOffer extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String dailyOfferId = mDatabaseRefrence.push().getKey();
-                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString(), restaurantUid, dailyOfferId);
+                                    DailyOffer dailyOffer = new DailyOffer(edtFoodName.getText().toString().trim(), edtPrice.getText().toString().trim(), edtDiscount.getText().toString().trim(), edtAvailbaleQuantity.getText().toString().trim(), edtShortdesc.getText().toString().trim(), uri.toString(), restaurantUid, dailyOfferId,"0");
 
                                     //We also save information in table of restaurant for simplicity
                                     //but later we will search on database
